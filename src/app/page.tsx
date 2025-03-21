@@ -1,7 +1,9 @@
 'use client';
 
 import cn from 'clsx';
+import { useState } from 'react';
 
+import validate from '@/actions/validate';
 import Button from '@/components/Button';
 import Fieldset from '@/components/Fieldset';
 import Flex from '@/components/Flex';
@@ -14,6 +16,8 @@ import style from './page.module.scss';
 const ApiUser = ({ disabled }: { disabled: boolean }) => {
   const { setStep, clientId, setClientId, clientSecret, setClientSecret } =
     usePageContext();
+
+  const [validationError, setValidationError] = useState(false);
 
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
@@ -49,13 +53,17 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
         </Fieldset>
         <div>
           <Button
-            onClick={() => {
-              setStep(2);
+            onClick={async () => {
+              setValidationError(false);
+              const valid = await validate(clientId, clientSecret);
+              setValidationError(!valid);
+              if (valid) setStep(2);
             }}
             disabled={!clientId || !clientSecret}
           >
             Sjekk
           </Button>
+          {validationError && <p className={style.error}>Feil</p>}
         </div>
       </Flex>
     </section>
