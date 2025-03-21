@@ -1,0 +1,132 @@
+@use 'sass:map';
+
+/* Colors */
+/* Hex opacity values (#rrggbbaa): https://davidwalsh.name/hex-opacity */
+
+$colorMap: (
+  primary: (
+    selected: #002a53,
+    enabled: #1c5081,
+    hover: #4977af,
+    divider: #94c5ee,
+    background: #e0effd,
+    canvasBackground: #edf1f7,
+  ),
+  muted: (
+    selected: #49739a,
+    hover: #6d92bf,
+    divider: #a9d1f1,
+    background: #e9f5ff,
+    text: #595959,
+    textMuted: #7a7a7a,
+    grey6: #b2b2b2,
+  ),
+  neutral: (
+    grey9: #282828,
+    grey8: #4c4c4c,
+    grey7: #737373,
+    grey6: #9d9d9d,
+    grey5: #c9c9c9,
+    grey4: #d4d4d4,
+    grey3: #dedede,
+    grey2: #e9e9e9,
+    grey1: #f4f4f4,
+    black: #222222,
+    white: #ffffff,
+    shadow: #0000004d,
+  ),
+  feedback: (
+    info: (
+      selected: #002a53,
+      enabled: #1c5081,
+      hover: #4977af,
+      background: #e0effd,
+    ),
+    success: (
+      selected: #2a5735,
+      enabled: #428351,
+      hover: #88c396,
+      background: #d4ebd9,
+    ),
+    error: (
+      selected: #a10303,
+      enabled: #c50000,
+      hover: #ea4c4c,
+      background: #ffd3d3,
+    ),
+    warning: (
+      selected: #7e4000,
+      enabled: #a05200,
+      hover: #e7ab76,
+      background: #fae3d0,
+    ),
+  ),
+  focus: (
+    enabled: #008dd3,
+  ),
+  link: (
+    link: #1963d3,
+    linkVisited: #6b19d3,
+  ),
+  text: (
+    default: #222222,
+    muted: #666666,
+    inverted: #ffffff,
+  ),
+);
+
+$componentSize: (
+  XL: 1130px,
+  L: 939px,
+  M: 748px,
+  S: 557px,
+  XS: 366px,
+  XXS: 270.5px,
+  Mini: 175px,
+  Micro: 84px,
+);
+
+$controlSize: (
+  L: 44px,
+  M: 36px,
+  S: 24px,
+);
+
+/* Borders and sizes */
+$smallWidth: 750px;
+$outerContentWidth: 970px;
+$wideContentWidth: 1180px;
+
+$fontSize: (
+  h1: 3.5rem,
+  h2: 2.3rem,
+  h3: 2rem,
+  large: 1.8rem,
+  normal: 1.6rem,
+  small: 1.4rem,
+  extraSmall: 1.2rem,
+  tiny: 1rem,
+);
+
+@function color($base, $shades...) {
+  $color: map.get($colorMap, $base);
+  @each $shade in $shades {
+    $color: map.get($color, $shade);
+  }
+  @return $color;
+}
+
+@function fontSize($name) {
+  $fontSize: map.get($fontSize, $name);
+  @return $fontSize;
+}
+
+@function componentSize($name) {
+  $componentSize: map.get($componentSize, $name);
+  @return $componentSize;
+}
+
+@function controlSize($name) {
+  $controlSize: map.get($controlSize, $name);
+  @return $controlSize;
+}

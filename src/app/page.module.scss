@@ -1,0 +1,18 @@
+@use '@/styling/variables.scss' as var;
+
+.content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.section {
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

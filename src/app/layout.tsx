@@ -20,8 +20,15 @@ export default function RootLayout({
   return (
     <html lang="nb">
       <body className={`${besley.variable} ${besley.variable}`}>
-        <h1>Papirskjema</h1>
-        {children}
+        <div className="content">
+          <header>
+            <h1>Papirskjema</h1>{' '}
+            <p className="tagline">
+              Gjør ditt Nettskjema om til et skjema for den virkelige verden
+            </p>
+          </header>
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );
