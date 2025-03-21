@@ -1,0 +1,28 @@
+@use '@/styling/variables.scss' as var;
+
+.button {
+  border: none;
+  outline: none;
+  appearance: none;
+  border-radius: 3px;
+  background-color: var.color(neutral, grey7);
+  color: var.color(neutral, white);
+  padding: 6px 8px;
+  font-size: var.fontSize(normal);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var.color(neutral, grey6);
+  }
+  &:active {
+    background-color: var.color(neutral, grey8);
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px var.color(neutral, black);
+  }
+  &:disabled {
+    background-color: var.color(neutral, grey5);
+    color: var.color(neutral, grey1);
+    cursor: not-allowed;
+  }
+}

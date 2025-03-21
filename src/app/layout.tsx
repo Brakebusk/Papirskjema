@@ -1,6 +1,7 @@
+import './globals.scss';
+
 import type { Metadata } from 'next';
 import { Besley } from 'next/font/google';
-import './globals.scss';
 
 const besley = Besley({
   variable: '--font-besley',

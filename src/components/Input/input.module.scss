@@ -1,0 +1,12 @@
+@use '@/styling/variables.scss' as var;
+
+.inputContainer {
+  display: flex;
+  column-gap: 8px;
+}
+
+.input {
+  max-width: var.componentSize(S);
+  width: 100%;
+  height: var.controlSize(S);
+}

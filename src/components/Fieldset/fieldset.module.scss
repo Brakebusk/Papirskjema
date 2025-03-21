@@ -1,0 +1,10 @@
+@use '@/styling/variables.scss' as var;
+
+.fieldset {
+  outline: none;
+  border: none;
+
+  legend {
+    font-weight: 600;
+  }
+}

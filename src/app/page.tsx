@@ -1,14 +1,19 @@
 'use client';
 
-import Link from '@/components/Link/Link';
+import cn from 'clsx';
+
+import Button from '@/components/Button';
+import Fieldset from '@/components/Fieldset';
+import Flex from '@/components/Flex';
+import Input from '@/components/Input';
+import Link from '@/components/Link';
+
+import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
 
-import cn from 'clsx';
-import { useState } from 'react';
-import { PageProvider, usePageContext } from './context';
-
 const ApiUser = ({ disabled }: { disabled: boolean }) => {
-  const { setStep } = usePageContext();
+  const { setStep, clientId, setClientId, clientSecret, setClientSecret } =
+    usePageContext();
 
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
@@ -17,35 +22,42 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
         For å kunne opprette et papirskjema av skjemaet ditt, trenger du en
         API-bruker i Nettskjema med rettigheter til skjemaet ditt.
       </p>
-      <p>
-        Gå til{' '}
-        <Link href="https://authorization.nettskjema.no/" target="_blank">
-          https://authorization.nettskjema.no/
-        </Link>{' '}
-        og registrer en klient.
-      </p>
-      <p>Lim inn verdiene her:</p>
-      <fieldset>
+      <Flex direction="column" rowGap={8}>
+        <p>
+          Gå til{' '}
+          <Link href="https://authorization.nettskjema.no/" target="_blank">
+            https://authorization.nettskjema.no/
+          </Link>{' '}
+          og registrer en klient.
+        </p>
+        <Fieldset
+          legend="Lim inn verdiene her:"
+          className={style.apiUserFieldset}
+        >
+          <Flex direction="column" rowGap={8}>
+            <Input
+              label="Client ID:"
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
+            />
+            <Input
+              label="Client secret:"
+              value={clientSecret}
+              onChange={(e) => setClientSecret(e.target.value)}
+            />
+          </Flex>
+        </Fieldset>
         <div>
-          <label>
-            <span>Client ID:</span>
-            <input />
-          </label>
+          <Button
+            onClick={() => {
+              setStep(2);
+            }}
+            disabled={!clientId || !clientSecret}
+          >
+            Sjekk
+          </Button>
         </div>
-        <div>
-          <label>
-            <span>Client secret:</span>
-            <input />
-          </label>
-        </div>
-      </fieldset>
-      <button
-        onClick={() => {
-          setStep(2);
-        }}
-      >
-        OK
-      </button>
+      </Flex>
     </section>
   );
 };
@@ -66,16 +78,21 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
   );
 };
 
-const Page = () => {
-  const [step, setStep] = useState(1);
-
+const PageContent = () => {
+  const { step } = usePageContext();
   return (
-    <PageProvider value={{ step, setStep }}>
-      <div className={style.content}>
-        <ApiUser disabled={step !== 1} />
-        <ChooseForm disabled={step !== 2} />
-        <DownloadForm disabled={step !== 3} />
-      </div>
+    <div className={style.content}>
+      <ApiUser disabled={step !== 1} />
+      <ChooseForm disabled={step !== 2} />
+      <DownloadForm disabled={step !== 3} />
+    </div>
+  );
+};
+
+const Page = () => {
+  return (
+    <PageProvider>
+      <PageContent />
     </PageProvider>
   );
 };
