@@ -1,21 +1,29 @@
 'use client';
 
 import cn from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import validate from '@/actions/validate';
+import getForms from '@/actions/getForms';
+import getToken from '@/actions/getToken';
 import Button from '@/components/Button';
 import Fieldset from '@/components/Fieldset';
 import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
+import { MyForms } from '@/types/NettskjemaAPI';
 
 import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
 
 const ApiUser = ({ disabled }: { disabled: boolean }) => {
-  const { setStep, clientId, setClientId, clientSecret, setClientSecret } =
-    usePageContext();
+  const {
+    setStep,
+    clientId,
+    setClientId,
+    clientSecret,
+    setClientSecret,
+    setAccessToken,
+  } = usePageContext();
 
   const [validationError, setValidationError] = useState(false);
 
@@ -42,12 +50,12 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
             <Input
               label="Client ID:"
               value={clientId}
-              onChange={(e) => setClientId(e.target.value)}
+              onChange={(e) => setClientId(e.target.value.trim())}
             />
             <Input
               label="Client secret:"
               value={clientSecret}
-              onChange={(e) => setClientSecret(e.target.value)}
+              onChange={(e) => setClientSecret(e.target.value.trim())}
             />
           </Flex>
         </Fieldset>
@@ -55,9 +63,13 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
           <Button
             onClick={async () => {
               setValidationError(false);
-              const valid = await validate(clientId, clientSecret);
-              setValidationError(!valid);
-              if (valid) setStep(2);
+              const response = await getToken(clientId, clientSecret);
+              if (response?.access_token) {
+                setAccessToken(response.access_token);
+                setStep(2);
+              } else {
+                setValidationError(true);
+              }
             }}
             disabled={!clientId || !clientSecret}
           >
@@ -71,6 +83,24 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
 };
 
 const ChooseForm = ({ disabled }: { disabled: boolean }) => {
+  const { accessToken } = usePageContext();
+  const [forms, setForms] = useState<MyForms>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!disabled) {
+        const formList = await getForms(accessToken);
+        console.log(formList);
+        if (formList) {
+          setForms(formList);
+        } else {
+          // Handle error
+        }
+      }
+    };
+    fetchData();
+  }, [disabled, accessToken]);
+
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 2: Velg skjema</h2>
