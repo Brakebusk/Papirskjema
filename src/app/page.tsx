@@ -27,6 +27,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
   } = usePageContext();
 
   const [validationError, setValidationError] = useState<string>('');
+  const [busy, setBusy] = useState(false);
 
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
@@ -65,6 +66,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
           <Button
             onClick={async () => {
               setValidationError('');
+              setBusy(true);
               const response = await getToken(clientId, clientSecret);
               if (response?.access_token) {
                 setAccessToken(response.access_token);
@@ -72,8 +74,10 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
               } else {
                 setValidationError(response?.error || 'Ukjent årsak');
               }
+              setBusy(false);
             }}
             disabled={!clientId || !clientSecret}
+            busy={busy}
           >
             Sjekk
           </Button>

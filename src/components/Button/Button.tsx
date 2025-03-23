@@ -1,14 +1,17 @@
 import { ReactNode } from 'react';
 
+import LoadingIcon from '../LoadingIcon';
 import style from './Button.module.scss';
 
 const Button = ({
   onClick,
   disabled,
+  busy,
   children,
 }: {
   onClick: () => void;
   disabled?: boolean;
+  busy?: boolean;
   children: ReactNode;
 }) => {
   return (
@@ -19,6 +22,7 @@ const Button = ({
       disabled={disabled}
     >
       {children}
+      {busy && <LoadingIcon />}
     </button>
   );
 };

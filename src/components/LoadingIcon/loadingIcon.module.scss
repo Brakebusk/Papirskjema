@@ -1,0 +1,11 @@
+@use '@/styling/variables.scss' as var;
+
+.icon {
+  animation: spin 0.7s steps(8) infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

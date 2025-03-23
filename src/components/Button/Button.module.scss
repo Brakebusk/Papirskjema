@@ -1,6 +1,9 @@
 @use '@/styling/variables.scss' as var;
 
 .button {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
   border: none;
   outline: none;
   appearance: none;
