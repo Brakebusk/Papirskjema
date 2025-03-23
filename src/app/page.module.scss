@@ -25,3 +25,33 @@
     width: 105px;
   }
 }
+
+.clientUsername {
+  background-color: var.color(neutral, grey4);
+  border-radius: 2px;
+  padding: 1px 2px;
+}
+
+.formList {
+  max-width: var.componentSize(S);
+  border-collapse: collapse;
+
+  thead {
+    th {
+      text-align: left;
+      border-bottom: 1px solid var.color(neutral, grey6);
+
+      &:last-child {
+        width: 115px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border-bottom: 1px solid var.color(neutral, grey4);
+        padding: 6px 0;
+      }
+    }
+  }
+}

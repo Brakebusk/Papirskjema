@@ -1,0 +1,5 @@
+@use '@/styling/variables.scss' as var;
+
+.error {
+  color: var.color(feedback, error, enabled);
+}

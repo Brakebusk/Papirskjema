@@ -1,4 +1,9 @@
-import { ChangeEventHandler, FocusEventHandler, useId } from 'react';
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  HTMLInputTypeAttribute,
+  useId,
+} from 'react';
 
 import style from './input.module.scss';
 
@@ -7,11 +12,13 @@ const Input = ({
   onBlur,
   onChange,
   label,
+  type,
 }: {
   value: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   label: string;
+  type?: HTMLInputTypeAttribute;
 }) => {
   const inputId = useId();
   return (
@@ -23,6 +30,8 @@ const Input = ({
         onBlur={onBlur}
         value={value}
         id={inputId}
+        autoComplete="off"
+        type={type}
       />
     </div>
   );

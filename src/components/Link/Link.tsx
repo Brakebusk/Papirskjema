@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { HTMLAttributeAnchorTarget, ReactNode } from 'react';
 
 import style from './link.module.scss';
 
@@ -8,7 +8,7 @@ const Link = ({
   children,
 }: {
   href: string;
-  target?: HTMLAnchorElement['target'];
+  target?: HTMLAttributeAnchorTarget;
   children: ReactNode;
 }) => (
   <a
