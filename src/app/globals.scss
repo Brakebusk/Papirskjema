@@ -63,3 +63,9 @@ footer {
   height: var.componentSize(Mini);
   padding-top: 64px;
 }
+
+#pdf-root {
+  position: absolute;
+  z-index: -1000;
+  top: 0;
+}

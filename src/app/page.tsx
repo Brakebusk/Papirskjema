@@ -12,6 +12,8 @@ import Fieldset from '@/components/Fieldset';
 import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
+import { useCreatePDF } from '@/components/PDF';
+import FormTemplate from '@/components/PDF/templates/FormTemplate';
 import { Element, MyForms } from '@/types/NettskjemaAPI';
 
 import { PageProvider, usePageContext } from './context';
@@ -212,6 +214,20 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     if (!disabled) updateElements();
   }, [disabled, updateElements]);
 
+  const { createPDF } = useCreatePDF(
+    (onRenderCallback) => (
+      <FormTemplate
+        form={selectedForm}
+        elements={elements}
+        onRenderCallback={onRenderCallback}
+      />
+    ),
+    selectedForm?.title,
+    {
+      fileName: `papirskjema-${selectedForm?.formId}`,
+    },
+  );
+
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 3: Last ned papirskjema</h2>
@@ -220,7 +236,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
         {getElementsError && <ErrorMessage>{getElementsError}</ErrorMessage>}
         {busy && <p>Laster inn skjemastruktur...</p>}
         <div>
-          <Button disabled={elements == null} onClick={() => null}>
+          <Button disabled={elements == null} onClick={() => createPDF()}>
             Last ned PDF
           </Button>
         </div>

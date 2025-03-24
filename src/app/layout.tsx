@@ -1,12 +1,9 @@
 import './globals.scss';
+import '@fontsource/besley/400.css';
+import '@fontsource/besley/600.css';
+import '@fontsource/besley/700.css';
 
 import type { Metadata } from 'next';
-import { Besley } from 'next/font/google';
-
-const besley = Besley({
-  variable: '--font-besley',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'Papirskjema',
@@ -20,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nb">
-      <body className={`${besley.variable} ${besley.variable}`}>
+      <body>
         <div className="content">
           <header>
             <h1>Papirskjema</h1>{' '}
@@ -31,6 +28,7 @@ export default function RootLayout({
           <main>{children}</main>
         </div>
         <footer>Papirskjema :)</footer>
+        <div id="pdf-root" />
       </body>
     </html>
   );

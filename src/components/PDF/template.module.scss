@@ -1,0 +1,14 @@
+@use '@/styling/variables.scss' as var;
+
+.template {
+  &.debug {
+    box-shadow: 0 0 0 4px var.color(neutral, grey8);
+    background-color: var.color(neutral, white);
+  }
+}
+
+.simpleFrontPage {
+  border-bottom: 2px solid var.color(neutral, grey8);
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
