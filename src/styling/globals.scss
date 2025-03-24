@@ -17,6 +17,7 @@ body {
 
 body {
   font-family: 'Besley', serif;
+  background-color: var.color(neutral, grey1);
   color: var.color(text, default);
   font-size: var.fontSize(normal);
   margin: 0;
