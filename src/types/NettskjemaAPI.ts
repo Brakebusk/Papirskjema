@@ -732,7 +732,7 @@ export interface Element {
   questionId?: number;
   text?: string;
   description?: string;
-  elementType?:
+  elementType:
     | 'DEFAULT' // Custom element only used by frontend
     | 'TEXT'
     | 'IMAGE'

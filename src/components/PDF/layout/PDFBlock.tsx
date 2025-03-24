@@ -5,13 +5,9 @@
 
 import { ReactNode } from 'react';
 
-type PDFBlockProps = { children: ReactNode; tableOfContentsTitle?: string };
+type PDFBlockProps = { children: ReactNode };
 
-const PDFBlock = ({ children, tableOfContentsTitle }: PDFBlockProps) => {
-  return (
-    <div data-pdf-block data-pdf-toc-title={tableOfContentsTitle}>
-      {children}
-    </div>
-  );
+const PDFBlock = ({ children }: PDFBlockProps) => {
+  return <div data-pdf-block>{children}</div>;
 };
 export default PDFBlock;

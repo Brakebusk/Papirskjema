@@ -13,7 +13,9 @@ import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
 import { useCreatePDF } from '@/components/PDF';
-import FormTemplate from '@/components/PDF/templates/FormTemplate';
+import FormTemplate, {
+  renderableElements,
+} from '@/components/PDF/templates/FormTemplate';
 import { Element, MyForms } from '@/types/NettskjemaAPI';
 
 import { PageProvider, usePageContext } from './context';
@@ -214,7 +216,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     if (!disabled) updateElements();
   }, [disabled, updateElements]);
 
-  const { createPDF } = useCreatePDF(
+  const { createPDF, busy: pdfBusy } = useCreatePDF(
     (onRenderCallback) => (
       <FormTemplate
         form={selectedForm}
@@ -228,6 +230,10 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     },
   );
 
+  const unRenderableElements = [
+    ...new Set(elements?.map((element) => element.elementType)),
+  ].filter((type) => !renderableElements.includes(type));
+
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 3: Last ned papirskjema</h2>
@@ -235,8 +241,21 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
         <p>Valgt skjema: {selectedForm?.title}</p>
         {getElementsError && <ErrorMessage>{getElementsError}</ErrorMessage>}
         {busy && <p>Laster inn skjemastruktur...</p>}
+        {unRenderableElements.length > 0 && (
+          <div>
+            <p>
+              NB: Følgende spørsmålstyper har ikke fysisk representasjon og vil
+              dermed bli ekskludert:{' '}
+            </p>
+            {unRenderableElements.join(', ')}
+          </div>
+        )}
         <div>
-          <Button disabled={elements == null} onClick={() => createPDF()}>
+          <Button
+            disabled={elements == null}
+            onClick={() => createPDF()}
+            busy={pdfBusy}
+          >
             Last ned PDF
           </Button>
         </div>

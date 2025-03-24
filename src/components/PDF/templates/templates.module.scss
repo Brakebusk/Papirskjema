@@ -1,0 +1,20 @@
+@use '@/styling/variables.scss' as var;
+
+.title {
+  font-size: var.fontSize(h2);
+}
+
+.description {
+  font-size: var.fontSize(small);
+}
+
+.box {
+  border-radius: 2px;
+  width: var.componentSize(M);
+  height: var.controlSize(L);
+  border: 2px solid var.color(neutral, grey8);
+
+  &.tall {
+    height: var.componentSize(XS);
+  }
+}
