@@ -240,7 +240,6 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     selectedForm?.title,
     {
       fileName: `papirskjema-${selectedForm?.formId}`,
-      onPDFCreatedCallback: () => setHasDownloaded(true),
     },
   );
 
@@ -266,7 +265,10 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
         <Flex columnGap={8}>
           <Button
             disabled={elements == null}
-            onClick={() => createPDF()}
+            onClick={() => {
+              createPDF();
+              setHasDownloaded(true);
+            }}
             busy={pdfBusy}
           >
             Last ned PDF
@@ -282,24 +284,33 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             Velg et annet skjema
           </Button>
         </Flex>
-        {hasDownloaded && (
+        {hasDownloaded && !pdfBusy && (
           <div>
             <h3>Ferdig?</h3>
-            Om du ikke skal generere flere papirskjemaer, bør du slette
-            API-brukeren som du opprettet her:{' '}
-            <Link href="https://authorization.nettskjema.no/" target="_blank">
-              https://authorization.nettskjema.no/
-            </Link>{' '}
-            og logge ut:
-            <Button
-              onClick={() => {
-                setStep(1);
-                setClientId('');
-                setClientSecret('');
-              }}
-            >
-              Logg ut
-            </Button>
+            <Flex direction="column" rowGap={8}>
+              <p>
+                Om du ikke skal generere flere papirskjemaer, bør du slette
+                API-brukeren som du opprettet her:{' '}
+                <Link
+                  href="https://authorization.nettskjema.no/"
+                  target="_blank"
+                >
+                  https://authorization.nettskjema.no/
+                </Link>{' '}
+                og logge ut:
+              </p>
+              <div>
+                <Button
+                  onClick={() => {
+                    setStep(1);
+                    setClientId('');
+                    setClientSecret('');
+                  }}
+                >
+                  Logg ut
+                </Button>
+              </div>
+            </Flex>
           </div>
         )}
       </Flex>

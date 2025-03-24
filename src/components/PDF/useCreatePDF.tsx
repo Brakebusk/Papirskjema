@@ -40,7 +40,6 @@ export const useCreatePDF = (
   const {
     fileName,
     contentClassName,
-    onPDFCreatedCallback,
     disableAutoPaging,
     hidePageNumbers,
     debugMode,
@@ -119,7 +118,6 @@ export const useCreatePDF = (
               }
 
               const fullFileName = `${fileName || 'papirskjema'}.pdf`;
-              onPDFCreatedCallback?.(generatedPDF, fullFileName);
               generatedPDF.save(fullFileName);
               if (!debugMode && rootRef.current) rootRef.current.unmount();
               setRenderPDF(false);
@@ -139,7 +137,6 @@ export const useCreatePDF = (
     disableAutoPaging,
     fileName,
     hidePageNumbers,
-    onPDFCreatedCallback,
     templateRendered,
   ]);
 
