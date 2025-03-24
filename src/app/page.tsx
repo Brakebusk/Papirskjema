@@ -243,10 +243,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
         {busy && <p>Laster inn skjemastruktur...</p>}
         {unRenderableElements.length > 0 && (
           <div>
-            <p>
-              NB: Følgende spørsmålstyper har ikke fysisk representasjon og vil
-              dermed bli ekskludert:{' '}
-            </p>
+            <p>NB: Følgende elementtyper vil ikke bli inkludert: </p>
             {unRenderableElements.join(', ')}
           </div>
         )}

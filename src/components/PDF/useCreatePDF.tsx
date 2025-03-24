@@ -9,7 +9,6 @@ import {
   applyAutoPaging,
   applyClickableLinks,
   applyPageNumbers,
-  applyWatermark,
   calculateTemplatePageCount,
 } from './helpers';
 import { Template } from './Template';
@@ -44,7 +43,6 @@ export const useCreatePDF = (
     onPDFCreatedCallback,
     disableAutoPaging,
     hidePageNumbers,
-    hideWatermark,
     debugMode,
   } = options;
   const [renderPDF, setRenderPDF] = useState(false);
@@ -119,9 +117,6 @@ export const useCreatePDF = (
               if (!hidePageNumbers) {
                 applyPageNumbers(generatedPDF, false);
               }
-              if (!hideWatermark) {
-                applyWatermark(generatedPDF, false);
-              }
 
               const fullFileName = `${fileName || 'papirskjema'}.pdf`;
               if (onPDFCreatedCallback) {
@@ -147,7 +142,6 @@ export const useCreatePDF = (
     disableAutoPaging,
     fileName,
     hidePageNumbers,
-    hideWatermark,
     onPDFCreatedCallback,
     templateRendered,
   ]);

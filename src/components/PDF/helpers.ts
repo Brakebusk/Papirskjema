@@ -6,7 +6,6 @@ import {
   PDF_PAGE_HEIGHT,
   PDF_PAGE_INNER_HEIGHT,
   PDF_PAGE_WIDTH,
-  WATERMARK,
 } from './constants';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -133,30 +132,6 @@ export const applyPageNumbers = (
       `Side: ${currentPage}/${pageCount}`,
       PDF_PAGE_WIDTH - 120 - rightPadding,
       PDF_PAGE_HEIGHT - 40,
-    );
-  }
-};
-
-export const applyWatermark = (
-  generatedPdf: jsPDF,
-  hideOnFrontPage: boolean,
-) => {
-  const pageCount = generatedPdf.getNumberOfPages();
-
-  for (
-    let pageNumber = hideOnFrontPage ? 2 : 1;
-    pageNumber <= pageCount;
-    pageNumber++
-  ) {
-    generatedPdf.setPage(pageNumber);
-    generatedPdf.addImage(
-      WATERMARK,
-      'PNG',
-      PDF_MARGINS[3],
-      PDF_PAGE_HEIGHT - PDF_MARGINS[2] - 5,
-      219,
-      53,
-      'watermark',
     );
   }
 };
