@@ -1,5 +1,9 @@
 import { Fragment, JSX } from 'react';
 
+export const Spacer = ({ height }: { height: number }) => (
+  <div style={{ height }} />
+);
+
 // Auto paging does not work optimally if you use flex gap for spcing between elements
 export const addSpaceBetweenElements = (
   elements: JSX.Element[],

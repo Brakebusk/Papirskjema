@@ -7,7 +7,7 @@ import { ComponentSize, componentSize } from '@/utils/sizes';
 
 import PDFBlock from '../layout/PDFBlock';
 import PDFPageBreak from '../layout/PDFPageBreak';
-import { addSpaceBetweenElements } from '../util';
+import { addSpaceBetweenElements, Spacer } from '../util';
 import style from './templates.module.scss';
 
 const ElementTitle = ({ element }: { element: Element }) => (
@@ -67,7 +67,9 @@ const NationalIdFormatCaption = ({ element }: { element: Element }) => {
 const TextField = (element: Element) => (
   <div>
     <ElementTitle element={element} />
+    <Spacer height={8} />
     <ElementDescription element={element} />
+    <Spacer height={8} />
     {element.elementType === 'NATIONAL_ID_NUMBER' && (
       <NationalIdFormatCaption element={element} />
     )}
@@ -86,7 +88,9 @@ const TextField = (element: Element) => (
 const MultipleChoice = (element: Element) => (
   <div>
     <ElementTitle element={element} />
+    <Spacer height={8} />
     <ElementDescription element={element} />
+    <Spacer height={8} />
     {element.elementType === 'CHECKBOX' ? (
       <p>
         Velg opptil{' '}
@@ -119,7 +123,9 @@ const MultipleChoice = (element: Element) => (
 const Matrix = (element: Element) => (
   <div>
     <ElementTitle element={element} />
+    <Spacer height={8} />
     <ElementDescription element={element} />
+    <Spacer height={8} />
     {element.elementType === 'MATRIX_CHECKBOX' ? (
       <p>
         Velg opptil{' '}
@@ -182,7 +188,9 @@ const Date = (element: Element) => {
   return (
     <div>
       <ElementTitle element={element} />
+      <Spacer height={8} />
       <ElementDescription element={element} />
+      <Spacer height={8} />
       <Flex align="center" columnGap={8}>
         {showDate && (
           <div>
