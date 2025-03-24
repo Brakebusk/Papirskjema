@@ -20,16 +20,18 @@ export default function RootLayout({
   return (
     <html lang="nb">
       <body>
-        <div className="content">
-          <header>
-            <h1>Papirskjema</h1>{' '}
-            <p className="tagline">
-              Gjør ditt Nettskjema om til et skjema for den virkelige verden
-            </p>
-          </header>
-          <main>{children}</main>
+        <div className="content-container">
+          <div className="content">
+            <header>
+              <h1>Papirskjema</h1>{' '}
+              <p className="tagline">
+                Gjør ditt Nettskjema om til et skjema for den virkelige verden
+              </p>
+            </header>
+            <main>{children}</main>
+            <footer>Papirskjema :)</footer>
+          </div>
         </div>
-        <footer>Papirskjema :)</footer>
         <div id="pdf-root" />
       </body>
     </html>

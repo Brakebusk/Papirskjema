@@ -17,7 +17,6 @@ body {
 
 body {
   font-family: 'Besley', serif;
-  background-color: var.color(neutral, grey1);
   color: var.color(text, default);
   font-size: var.fontSize(normal);
   margin: 0;
@@ -44,6 +43,12 @@ p {
   padding: 0 !important;
 }
 
+.content-container {
+  background-color: var.color(neutral, grey1);
+  width: 100%;
+  height: 100%;
+}
+
 .content {
   max-width: var.$wideContentWidth;
   margin: auto;
@@ -66,7 +71,7 @@ p {
 footer {
   text-align: center;
   height: var.componentSize(Mini);
-  padding-top: 64px;
+  padding-top: 80px;
 }
 
 #pdf-root {
