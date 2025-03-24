@@ -100,7 +100,6 @@ export const applyAutoPaging = (
     ),
   );
   const { innerOffsets: offsets } = calculateOffsets(contentChildren, 0);
-  console.log('Got', contentChildren, offsets);
 
   offsets.forEach(({ element, offset }) => {
     const shim = document.createElement('div');

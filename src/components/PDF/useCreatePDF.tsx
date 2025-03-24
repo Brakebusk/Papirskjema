@@ -119,11 +119,8 @@ export const useCreatePDF = (
               }
 
               const fullFileName = `${fileName || 'papirskjema'}.pdf`;
-              if (onPDFCreatedCallback) {
-                onPDFCreatedCallback(generatedPDF, fullFileName);
-              } else {
-                generatedPDF.save(fullFileName);
-              }
+              onPDFCreatedCallback?.(generatedPDF, fullFileName);
+              generatedPDF.save(fullFileName);
               if (!debugMode && rootRef.current) rootRef.current.unmount();
               setRenderPDF(false);
               setTemplateRendered(false);

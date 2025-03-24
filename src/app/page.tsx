@@ -197,12 +197,19 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
 };
 
 const DownloadForm = ({ disabled }: { disabled: boolean }) => {
-  const { selectedForm, accessToken, setStep, setSelectedForm } =
-    usePageContext();
+  const {
+    selectedForm,
+    accessToken,
+    setStep,
+    setSelectedForm,
+    setClientId,
+    setClientSecret,
+  } = usePageContext();
 
   const [elements, setElements] = useState<Element[] | null>(null);
   const [getElementsError, setGetElementsError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
 
   const updateElements = useCallback(async () => {
     if (selectedForm?.formId) {
@@ -233,6 +240,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     selectedForm?.title,
     {
       fileName: `papirskjema-${selectedForm?.formId}`,
+      onPDFCreatedCallback: () => setHasDownloaded(true),
     },
   );
 
@@ -244,9 +252,11 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 3: Last ned papirskjema</h2>
       <Flex direction="column" rowGap={16}>
-        <p>Valgt skjema: {selectedForm?.title}</p>
+        <p>
+          Valgt skjema:{' '}
+          {busy ? <i>Laster inn skjemastruktur...</i> : selectedForm?.title}
+        </p>
         {getElementsError && <ErrorMessage>{getElementsError}</ErrorMessage>}
-        {busy && <p>Laster inn skjemastruktur...</p>}
         {unRenderableElements.length > 0 && (
           <div>
             <p>NB: Følgende elementtyper vil ikke bli inkludert: </p>
@@ -272,6 +282,26 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             Velg et annet skjema
           </Button>
         </Flex>
+        {hasDownloaded && (
+          <div>
+            <h3>Ferdig?</h3>
+            Om du ikke skal generere flere papirskjemaer, bør du slette
+            API-brukeren som du opprettet her:{' '}
+            <Link href="https://authorization.nettskjema.no/" target="_blank">
+              https://authorization.nettskjema.no/
+            </Link>{' '}
+            og logge ut:
+            <Button
+              onClick={() => {
+                setStep(1);
+                setClientId('');
+                setClientSecret('');
+              }}
+            >
+              Logg ut
+            </Button>
+          </div>
+        )}
       </Flex>
     </section>
   );
