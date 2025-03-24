@@ -22,7 +22,7 @@ const Button = ({
       disabled={disabled}
     >
       {children}
-      {busy && <LoadingIcon />}
+      {busy && <LoadingIcon width={16} height={16} />}
     </button>
   );
 };
