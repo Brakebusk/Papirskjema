@@ -13,7 +13,7 @@ type ContextProps = {
   accessToken: string;
   setAccessToken: (accessToken: string) => void;
   selectedForm: MyForms | null;
-  setSelectedForm: (form: MyForms) => void;
+  setSelectedForm: (form: MyForms | null) => void;
 };
 
 const PageContext = createContext<ContextProps>({} as ContextProps);

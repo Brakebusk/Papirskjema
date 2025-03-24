@@ -197,7 +197,8 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
 };
 
 const DownloadForm = ({ disabled }: { disabled: boolean }) => {
-  const { selectedForm, accessToken } = usePageContext();
+  const { selectedForm, accessToken, setStep, setSelectedForm } =
+    usePageContext();
 
   const [elements, setElements] = useState<Element[] | null>(null);
   const [getElementsError, setGetElementsError] = useState('');
@@ -252,7 +253,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             {unRenderableElements.join(', ')}
           </div>
         )}
-        <div>
+        <Flex columnGap={8}>
           <Button
             disabled={elements == null}
             onClick={() => createPDF()}
@@ -260,7 +261,17 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
           >
             Last ned PDF
           </Button>
-        </div>
+          <Button
+            onClick={() => {
+              setStep(2);
+              setSelectedForm(null);
+            }}
+            disabled={pdfBusy}
+            variant="text"
+          >
+            Velg et annet skjema
+          </Button>
+        </Flex>
       </Flex>
     </section>
   );

@@ -28,4 +28,22 @@
     color: var.color(neutral, grey1);
     cursor: not-allowed;
   }
+
+  &.text {
+    background: none;
+    color: var.color(neutral, grey8);
+    text-decoration: underline;
+
+    &:hover {
+      background-color: var.color(neutral, grey6);
+      color: var.color(text, inverted);
+    }
+    &:active {
+      background-color: var.color(neutral, grey8);
+      color: var.color(text, inverted);
+    }
+    &:focus {
+      box-shadow: 0 0 0 2px var.color(neutral, black);
+    }
+  }
 }
