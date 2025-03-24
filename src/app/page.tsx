@@ -3,6 +3,7 @@
 import cn from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
 
+import getElements from '@/actions/getElements';
 import getForms from '@/actions/getForms';
 import getToken from '@/actions/getToken';
 import Button from '@/components/Button';
@@ -11,7 +12,7 @@ import Fieldset from '@/components/Fieldset';
 import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
-import { MyForms } from '@/types/NettskjemaAPI';
+import { Element, MyForms } from '@/types/NettskjemaAPI';
 
 import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
@@ -100,22 +101,22 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
   const { accessToken, setSelectedForm, step, setStep } = usePageContext();
   const [forms, setForms] = useState<MyForms[] | null>(null);
   const [getFormsError, setGetFormsError] = useState('');
+  const [busy, setBusy] = useState(false);
 
   const updateFormList = useCallback(async () => {
+    setBusy(true);
     setGetFormsError('');
     const formList = await getForms(accessToken);
-    if (formList) {
+    if (Array.isArray(formList)) {
       setForms(formList);
     } else {
       setGetFormsError('Kunne ikke hente skjemaer');
     }
+    setBusy(false);
   }, [accessToken]);
 
   useEffect(() => {
-    const fetchData = () => {
-      if (!disabled) updateFormList();
-    };
-    fetchData();
+    if (!disabled) updateFormList();
   }, [disabled, updateFormList]);
 
   return (
@@ -174,7 +175,9 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
                 </table>
               )}
               <div>
-                <Button onClick={() => updateFormList()}>Oppdater</Button>
+                <Button onClick={() => updateFormList()} busy={busy}>
+                  Oppdater
+                </Button>
               </div>
             </Flex>
           </div>
@@ -185,11 +188,43 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
 };
 
 const DownloadForm = ({ disabled }: { disabled: boolean }) => {
-  const { selectedForm } = usePageContext();
+  const { selectedForm, accessToken } = usePageContext();
+
+  const [elements, setElements] = useState<Element[] | null>(null);
+  const [getElementsError, setGetElementsError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const updateElements = useCallback(async () => {
+    if (selectedForm?.formId) {
+      setBusy(true);
+      setGetElementsError('');
+      const elementList = await getElements(accessToken, selectedForm.formId);
+      if (Array.isArray(elementList)) {
+        setElements(elementList);
+      } else {
+        setGetElementsError('Kunne ikke hente skjemastruktur');
+      }
+      setBusy(false);
+    }
+  }, [accessToken, selectedForm?.formId]);
+
+  useEffect(() => {
+    if (!disabled) updateElements();
+  }, [disabled, updateElements]);
+
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 3: Last ned papirskjema</h2>
-      <p>Valgt skjema: {selectedForm?.title}</p>
+      <Flex direction="column" rowGap={16}>
+        <p>Valgt skjema: {selectedForm?.title}</p>
+        {getElementsError && <ErrorMessage>{getElementsError}</ErrorMessage>}
+        {busy && <p>Laster inn skjemastruktur...</p>}
+        <div>
+          <Button disabled={elements == null} onClick={() => null}>
+            Last ned PDF
+          </Button>
+        </div>
+      </Flex>
     </section>
   );
 };
