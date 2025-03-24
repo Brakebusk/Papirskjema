@@ -8,6 +8,9 @@
 }
 
 .simpleFrontPage {
+  h1 {
+    font-size: 4rem;
+  }
   border-bottom: 2px solid var.color(neutral, grey8);
   padding-bottom: 4px;
   margin-bottom: 16px;

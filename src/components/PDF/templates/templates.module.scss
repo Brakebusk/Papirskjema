@@ -10,11 +10,28 @@
 
 .box {
   border-radius: 2px;
-  width: var.componentSize(M);
-  height: var.controlSize(L);
+  width: var.componentSize(XS);
+  height: var.controlSize(XL);
   border: 2px solid var.color(neutral, grey8);
 
   &.tall {
     height: var.componentSize(XS);
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  column-gap: 16px;
+
+  .optionBox {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var.color(neutral, grey8);
+    border-radius: 2px;
+
+    &.radio {
+      border-radius: 50%;
+    }
   }
 }
