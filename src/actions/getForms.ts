@@ -13,8 +13,7 @@ const getForms = async (accessToken: string) => {
     .then((data) => {
       return data;
     })
-    .catch((e) => {
-      console.log('got', e);
+    .catch(() => {
       return null;
     });
 };

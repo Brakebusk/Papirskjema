@@ -26,7 +26,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
     setAccessToken,
   } = usePageContext();
 
-  const [validationError, setValidationError] = useState<string>('');
+  const [validationError, setValidationError] = useState('');
   const [busy, setBusy] = useState(false);
 
   return (
@@ -99,13 +99,15 @@ const ClientUsername = () => {
 const ChooseForm = ({ disabled }: { disabled: boolean }) => {
   const { accessToken, setSelectedForm, step, setStep } = usePageContext();
   const [forms, setForms] = useState<MyForms[] | null>(null);
+  const [getFormsError, setGetFormsError] = useState('');
 
   const updateFormList = useCallback(async () => {
+    setGetFormsError('');
     const formList = await getForms(accessToken);
     if (formList) {
       setForms(formList);
     } else {
-      // Handle error
+      setGetFormsError('Kunne ikke hente skjemaer');
     }
   }, [accessToken]);
 
@@ -134,6 +136,8 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
         </div>
         {step === 1 ? null : forms == null ? (
           <p>Laster...</p>
+        ) : getFormsError ? (
+          <ErrorMessage>{getFormsError}</ErrorMessage>
         ) : (
           <div>
             <h3>Klienten din har tilgang til følgende skjema:</h3>{' '}
