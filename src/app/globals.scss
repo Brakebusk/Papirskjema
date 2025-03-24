@@ -1,5 +1,11 @@
 @use '@/styling/variables.scss' as var;
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -52,8 +58,8 @@ h3 {
   }
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+footer {
+  text-align: center;
+  height: var.componentSize(Mini);
+  padding-top: 64px;
 }

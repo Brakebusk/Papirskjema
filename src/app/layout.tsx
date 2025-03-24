@@ -30,6 +30,7 @@ export default function RootLayout({
           </header>
           <main>{children}</main>
         </div>
+        <footer>Papirskjema :)</footer>
       </body>
     </html>
   );

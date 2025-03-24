@@ -145,8 +145,10 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
               ) : (
                 <table className={style.formList}>
                   <thead>
-                    <th>Tittel</th>
-                    <th>Velg skjema</th>
+                    <tr>
+                      <th>Tittel</th>
+                      <th>Velg skjema</th>
+                    </tr>
                   </thead>
                   <tbody>
                     {forms.map((form) => (
