@@ -42,12 +42,35 @@ const inputWidthMap: Partial<Record<Element['elementType'], ComponentSize>> = {
   NUMBER: 'Mini',
   PHONE: 'XXS',
   USERNAME: 'XXS',
+  NATIONAL_ID_NUMBER: 'XXS',
+};
+
+const NationalIdFormatCaption = ({ element }: { element: Element }) => {
+  switch (element.nationalIdNumberType) {
+    case 'NORWEGIAN_ID_NUMBER':
+      return <p>Norsk fødselsnummer (11 siffer)</p>;
+    case 'ONLY_NUMBERS':
+      return null;
+    case 'CUSTOM':
+      return (
+        <p>
+          {element.nationalIdNumberOfLetters && element.nationalIdNumberOfDigits
+            ? `Fyll inn ${element.nationalIdNumberOfLetters} bokstaver og ${element.nationalIdNumberOfDigits} siffer`
+            : element.nationalIdNumberOfLetters
+              ? `Fyll inn ${element.nationalIdNumberOfLetters} bokstaver`
+              : `Fyll inn ${element.nationalIdNumberOfDigits} siffer`}
+        </p>
+      );
+  }
 };
 
 const TextField = (element: Element) => (
   <div>
     <ElementTitle element={element} />
     <ElementDescription element={element} />
+    {element.elementType === 'NATIONAL_ID_NUMBER' && (
+      <NationalIdFormatCaption element={element} />
+    )}
     <div
       className={cn(
         style.box,
@@ -124,6 +147,13 @@ const Date = (element: Element) => {
   );
 };
 
+const SubmissionReference = () => (
+  <div>
+    <div className={style.title}>Referanse-ID</div>
+    <div className={style.box} style={{ width: componentSize['XXS'] }} />
+  </div>
+);
+
 const ElementComponents: Partial<
   Record<Element['elementType'], (element: Element) => ReactNode>
 > = {
@@ -142,6 +172,8 @@ const ElementComponents: Partial<
   CHECKBOX: MultipleChoice,
   SELECT: MultipleChoice,
   DATE: Date,
+  NATIONAL_ID_NUMBER: TextField,
+  SUBMISSION_REFERENCE: SubmissionReference,
 };
 export const renderableElements = Object.keys(
   ElementComponents,
