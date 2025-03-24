@@ -89,7 +89,7 @@ const MultipleChoice = (element: Element) => (
     <ElementDescription element={element} />
     {element.elementType === 'CHECKBOX' ? (
       <p>
-        Velg{' '}
+        Velg opptil{' '}
         {element.maxSelectedAnswerOptions || 'så mange alternativer du vil'}
       </p>
     ) : (
@@ -113,6 +113,66 @@ const MultipleChoice = (element: Element) => (
       )) ?? [],
       8,
     )}
+  </div>
+);
+
+const Matrix = (element: Element) => (
+  <div>
+    <ElementTitle element={element} />
+    <ElementDescription element={element} />
+    {element.elementType === 'MATRIX_CHECKBOX' ? (
+      <p>
+        Velg opptil{' '}
+        {element.maxSelectedAnswerOptions
+          ? `${element.maxSelectedAnswerOptions} alternativer på hver rad`
+          : 'så mange alternativer du vil på hver rad'}
+      </p>
+    ) : (
+      <p>Velg 1 alternativ på hver rad</p>
+    )}
+    <div className={style.matrix}>
+      <div className={style.row}>
+        <div className={style.rowTitle} />
+        {element.answerOptions?.map((option) => (
+          <div
+            className={style.matrixOptionContainer}
+            key={option.answerOptionId}
+          >
+            <div
+              dangerouslySetInnerHTML={{
+                __html: option.text || '',
+              }}
+            />
+          </div>
+        ))}
+      </div>
+      {addSpaceBetweenElements(
+        element.subElements?.map((subElement) => (
+          <div key={subElement.subElementId} className={style.row}>
+            <div
+              className={style.rowTitle}
+              dangerouslySetInnerHTML={{
+                __html: subElement.text || '',
+              }}
+            />
+            {element.answerOptions?.map((option) => (
+              <div
+                key={option.answerOptionId}
+                className={style.matrixOptionContainer}
+              >
+                <div
+                  className={cn(
+                    style.optionBox,
+                    element.elementType === 'MATRIX_RADIO' && style.radio,
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+        )) ?? [],
+        16,
+      )}
+    </div>
   </div>
 );
 
@@ -174,6 +234,8 @@ const ElementComponents: Partial<
   DATE: Date,
   NATIONAL_ID_NUMBER: TextField,
   SUBMISSION_REFERENCE: SubmissionReference,
+  MATRIX_RADIO: Matrix,
+  MATRIX_CHECKBOX: Matrix,
 };
 export const renderableElements = Object.keys(
   ElementComponents,

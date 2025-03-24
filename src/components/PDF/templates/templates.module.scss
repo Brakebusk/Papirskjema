@@ -23,15 +23,35 @@
   display: flex;
   align-items: center;
   column-gap: 16px;
+}
 
-  .optionBox {
-    width: 28px;
-    height: 28px;
-    border: 2px solid var.color(neutral, grey8);
-    border-radius: 2px;
+.optionBox {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var.color(neutral, grey8);
+  border-radius: 2px;
 
-    &.radio {
-      border-radius: 50%;
+  &.radio {
+    border-radius: 50%;
+  }
+}
+
+.matrixOptionContainer {
+  width: var.componentSize(Mini);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-wrap: anywhere;
+}
+
+.matrix {
+  .row {
+    display: flex;
+    column-gap: 8px;
+
+    .rowTitle {
+      width: var.componentSize(Mini);
+      overflow-wrap: anywhere;
     }
   }
 }
