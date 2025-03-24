@@ -3,7 +3,7 @@
 import { nettskjemaBaseURL } from './constants';
 
 const getElements = async (accessToken: string, formId: number) => {
-  return fetch(`${nettskjemaBaseURL}/v3/form/${formId}/elements`, {
+  return await fetch(`${nettskjemaBaseURL}/v3/form/${formId}/elements`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',

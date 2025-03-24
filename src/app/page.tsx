@@ -34,6 +34,22 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
   const [validationError, setValidationError] = useState('');
   const [busy, setBusy] = useState(false);
 
+  const validateInput = useCallback(
+    async (clientId: string, clientSecret: string) => {
+      setValidationError('');
+      setBusy(true);
+      const response = await getToken(clientId, clientSecret);
+      if (response?.access_token) {
+        setAccessToken(response.access_token);
+        setStep(2);
+      } else {
+        setValidationError(response?.error || 'Ukjent årsak');
+      }
+      setBusy(false);
+    },
+    [setAccessToken, setStep],
+  );
+
   return (
     <section className={cn(style.section, disabled && style.disabled)}>
       <h2>Steg 1: API-Bruker</h2>
@@ -69,18 +85,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
         </Fieldset>
         <div>
           <Button
-            onClick={async () => {
-              setValidationError('');
-              setBusy(true);
-              const response = await getToken(clientId, clientSecret);
-              if (response?.access_token) {
-                setAccessToken(response.access_token);
-                setStep(2);
-              } else {
-                setValidationError(response?.error || 'Ukjent årsak');
-              }
-              setBusy(false);
-            }}
+            onClick={() => validateInput(clientId, clientSecret)}
             disabled={!clientId || !clientSecret}
             busy={busy}
           >

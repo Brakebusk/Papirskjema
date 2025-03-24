@@ -3,7 +3,7 @@
 import { authorizationBaseURL } from './constants';
 
 const getToken = async (clientId: string, clientSecret: string) => {
-  return fetch(`${authorizationBaseURL}/oauth2/token`, {
+  return await fetch(`${authorizationBaseURL}/oauth2/token`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
