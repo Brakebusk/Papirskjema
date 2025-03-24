@@ -1,4 +1,4 @@
-import './globals.scss';
+import '@/styling/globals.scss';
 import '@fontsource/besley/400.css';
 import '@fontsource/besley/600.css';
 import '@fontsource/besley/700.css';
