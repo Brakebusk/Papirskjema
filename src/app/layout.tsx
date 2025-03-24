@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: 'Gjør ditt Nettskjema om til et papirskjema',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
