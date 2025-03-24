@@ -35,6 +35,9 @@
 .formList {
   max-width: var.componentSize(S);
   border-collapse: collapse;
+  max-height: var.componentSize(S);
+  overflow-y: auto;
+  display: block;
 
   thead {
     th {
