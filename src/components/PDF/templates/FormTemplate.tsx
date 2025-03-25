@@ -159,12 +159,14 @@ const Matrix = (element: Element) => (
       {addSpaceBetweenElements(
         element.subElements?.map((subElement) => (
           <div key={subElement.subElementId} className={style.row}>
-            <div
-              className={style.rowTitle}
-              dangerouslySetInnerHTML={{
-                __html: subElement.text || '',
-              }}
-            />
+            <div className={style.rowTitle}>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: subElement.text || '',
+                }}
+              />
+              {subElement.isMandatory && <span> *</span>}
+            </div>
             {element.answerOptions?.map((option) => (
               <div
                 key={option.answerOptionId}
