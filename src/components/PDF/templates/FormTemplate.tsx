@@ -12,12 +12,15 @@ import LinearScale from './components/LinearScale';
 import style from './templates.module.scss';
 
 const ElementTitle = ({ element }: { element: Element }) => (
-  <div
-    className={style.title}
-    dangerouslySetInnerHTML={{
-      __html: element.text || '',
-    }}
-  />
+  <div>
+    <span
+      className={style.title}
+      dangerouslySetInnerHTML={{
+        __html: element.text || '',
+      }}
+    />
+    {element.isMandatory && <span className={style.mandatory}>*</span>}
+  </div>
 );
 
 const ElementDescription = ({ element }: { element: Element }) =>
@@ -273,16 +276,30 @@ const FormTemplate = ({
   onRenderCallback: () => void;
 }) => {
   if (!form || !elements) return <div ref={onRenderCallback} />;
+
+  const anyMandatory = elements.some((element) => element.isMandatory);
+
   return (
     <>
       {addSpaceBetweenElements(
-        elements
-          .filter(({ elementType }) => renderableElements.includes(elementType))
-          .map((element) => (
-            <PDFBlock key={element.elementId}>
-              {ElementComponents[element.elementType]?.(element)}
-            </PDFBlock>
-          )),
+        (anyMandatory
+          ? [
+              <p key="mandatory">
+                Obligatoriske spørsmål er markert med stjerne *
+              </p>,
+            ]
+          : []
+        ).concat(
+          elements
+            .filter(({ elementType }) =>
+              renderableElements.includes(elementType),
+            )
+            .map((element) => (
+              <PDFBlock key={element.elementId}>
+                {ElementComponents[element.elementType]?.(element)}
+              </PDFBlock>
+            )),
+        ),
         24,
       )}
       <div ref={onRenderCallback} />

@@ -4,6 +4,11 @@
   font-size: var.fontSize(h2);
 }
 
+.mandatory {
+  vertical-align: super;
+  padding-left: 2px;
+}
+
 .description {
   font-size: var.fontSize(small);
 }
