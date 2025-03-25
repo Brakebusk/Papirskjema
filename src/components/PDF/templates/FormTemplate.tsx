@@ -113,6 +113,23 @@ const TextField = (element: Element) => (
   </div>
 );
 
+const answerOptions = (element: Element) =>
+  element.answerOptions?.map((option) => (
+    <div key={option.answerOptionId} className={style.option}>
+      <div
+        className={cn(
+          style.optionBox,
+          ['RADIO', 'SELECT'].includes(element.elementType) && style.radio,
+        )}
+      />
+      <span
+        dangerouslySetInnerHTML={{
+          __html: option.text || '',
+        }}
+      />
+    </div>
+  )) ?? [];
+
 const MultipleChoice = (element: Element) => (
   <div>
     <ElementTitle element={element} />
@@ -127,23 +144,17 @@ const MultipleChoice = (element: Element) => (
     ) : (
       <p>Velg 1 alternativ</p>
     )}
-    {addSpaceBetweenElements(
-      element.answerOptions?.map((option) => (
-        <div key={option.answerOptionId} className={style.option}>
-          <div
-            className={cn(
-              style.optionBox,
-              ['RADIO', 'SELECT'].includes(element.elementType) && style.radio,
-            )}
-          />
-          <span
-            dangerouslySetInnerHTML={{
-              __html: option.text || '',
-            }}
-          />
-        </div>
-      )) ?? [],
-      8,
+    {element.isHorizontal ? (
+      <div className={style.horizontalMultipleChoice}>
+        {answerOptions(element)}
+      </div>
+    ) : (
+      addSpaceBetweenElements(
+        answerOptions(element).map((option, i) => (
+          <PDFBlock key={i}>{option}</PDFBlock>
+        )),
+        8,
+      )
     )}
   </div>
 );

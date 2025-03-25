@@ -28,6 +28,13 @@
   }
 }
 
+.horizontalMultipleChoice {
+  display: flex;
+  column-gap: 24px;
+  row-gap: 16px;
+  flex-wrap: wrap;
+}
+
 .option {
   display: flex;
   align-items: center;
