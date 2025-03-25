@@ -1,0 +1,225 @@
+@use '@/styling/variables.scss' as var;
+
+$primary-dark: var.color(neutral, grey9);
+$primary-hover: var.color(neutral, grey7);
+$primary-light: var.color(neutral, grey3);
+$white: var.color(neutral, white);
+$default-tekst: var.color(neutral, grey8);
+
+.tick {
+  position: absolute;
+  width: 4px;
+  height: 16px;
+  background-color: $primary-dark;
+  border: 2px solid $primary-dark;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 2;
+
+  &.vertical {
+    height: 4px;
+    width: 16px;
+    right: 0;
+  }
+
+  &.variedTick {
+    height: 8px;
+    margin-top: 7px;
+    background-color: $primary-hover;
+    border-color: $primary-hover;
+
+    &.vertical {
+      height: 4px;
+      width: 8px;
+      margin-top: auto;
+      margin-left: 7px;
+    }
+  }
+
+  &.offset {
+    height: 20px;
+    top: -11px;
+
+    &.variedTick {
+      height: 13px;
+    }
+
+    &.vertical {
+      height: auto;
+      width: 20px;
+      right: 8px;
+
+      &.variedTick {
+        width: 13px;
+      }
+    }
+  }
+
+  .tickValue {
+    color: $primary-dark;
+    margin-top: -30px;
+    margin-left: -14px;
+    white-space: nowrap;
+    font-size: 16px;
+
+    &.vertical {
+      margin-top: 0;
+      margin-left: 0;
+    }
+
+    span {
+      &.vertical {
+        display: inline-block;
+        position: absolute;
+        right: 20px;
+        top: -13px;
+        line-height: 26px;
+      }
+    }
+  }
+}
+
+.verticalEdgeText {
+  display: block;
+  font-size: 16px;
+  text-align: center;
+  width: 100px;
+
+  &.top {
+    margin-bottom: 30px;
+  }
+
+  &.bottom {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+
+.endMarkers {
+  position: relative;
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 90px;
+
+  &.vertical {
+    top: auto;
+    width: 0px;
+    height: 400px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  .endMarkerLeft {
+    position: absolute;
+    bottom: -60px;
+    left: -72px;
+    width: 150px;
+
+    &.showTickValues {
+      bottom: -40px;
+    }
+  }
+
+  .midMarker {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    width: 150px;
+    margin-left: -75px;
+
+    &.showTickValues {
+      bottom: -40px;
+    }
+
+    &.vertical {
+      bottom: auto;
+      top: 190px;
+      left: 0;
+      width: 150px;
+      margin-left: 0;
+    }
+  }
+
+  .endMarkerRight {
+    position: absolute;
+    bottom: -60px;
+    right: -75px;
+    width: 150px;
+
+    &.showTickValues {
+      bottom: -40px;
+    }
+  }
+}
+
+.sliderBox {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  position: relative;
+
+  &.vertical {
+    flex-direction: row;
+    column-gap: 16px;
+  }
+}
+
+.slid {
+  max-width: 800px;
+  padding: 30px 0 44px 75px;
+  display: flex;
+  column-gap: 42px;
+  align-items: flex-end;
+
+  &.vertical {
+    display: block;
+    margin-left: 0;
+  }
+
+  .sliderContainer {
+    position: relative;
+    height: 20px;
+
+    &.vertical {
+      height: 400px;
+    }
+  }
+
+  .railContainer {
+    height: 100%;
+    width: calc(100% + 10px);
+
+    &.vertical {
+      width: initial;
+      height: calc(100% + 10px);
+    }
+
+    .rail {
+      position: relative;
+      top: 100%;
+      height: 8px;
+      background-color: $primary-light;
+      border: 1px solid $primary-dark;
+      width: calc(100% - 5px);
+      border-radius: 2px;
+
+      &.vertical {
+        top: auto;
+        left: 11px;
+        width: 8px;
+        height: calc(100% - 5px);
+      }
+    }
+  }
+}
+
+.text {
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.14;
+  letter-spacing: normal;
+  color: $default-tekst;
+}

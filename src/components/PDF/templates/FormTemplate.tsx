@@ -8,6 +8,7 @@ import { ComponentSize, componentSize } from '@/utils/sizes';
 import PDFBlock from '../layout/PDFBlock';
 import PDFPageBreak from '../layout/PDFPageBreak';
 import { addSpaceBetweenElements, Spacer } from '../util';
+import LinearScale from './components/LinearScale';
 import style from './templates.module.scss';
 
 const ElementTitle = ({ element }: { element: Element }) => (
@@ -222,6 +223,18 @@ const SubmissionReference = () => (
   </div>
 );
 
+const LinearScaleElement = (element: Element) => {
+  return (
+    <div>
+      <ElementTitle element={element} />
+      <Spacer height={8} />
+      <ElementDescription element={element} />
+      <Spacer height={8} />
+      <LinearScale element={element} />
+    </div>
+  );
+};
+
 const ElementComponents: Partial<
   Record<Element['elementType'], (element: Element) => ReactNode>
 > = {
@@ -244,6 +257,7 @@ const ElementComponents: Partial<
   SUBMISSION_REFERENCE: SubmissionReference,
   MATRIX_RADIO: Matrix,
   MATRIX_CHECKBOX: Matrix,
+  LINEAR_SCALE: LinearScaleElement,
 };
 export const renderableElements = Object.keys(
   ElementComponents,

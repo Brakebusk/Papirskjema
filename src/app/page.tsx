@@ -172,7 +172,14 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
                   <tbody>
                     {forms.map((form) => (
                       <tr key={form.formId}>
-                        <td>{form.title}</td>
+                        <td>
+                          <Link
+                            href={`https://nettskjema.no/user/form/${form.formId}`}
+                            target="_blank"
+                          >
+                            {form.title}
+                          </Link>
+                        </td>
                         <td>
                           <Button
                             onClick={() => {
