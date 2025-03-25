@@ -77,6 +77,20 @@ const NationalIdFormatCaption = ({ element }: { element: Element }) => {
   }
 };
 
+const NumberLimits = ({ element }: { element: Element }) => {
+  const { minimumValue: min, maximumValue: max } = element;
+
+  const caption =
+    min != null && max != null
+      ? `Tallet må være mellom ${min} og ${max}`
+      : min != null
+        ? `Tallet må være minst ${min}`
+        : max != null
+          ? `Tallet må være høyst ${max}`
+          : null;
+  return caption ? <p className={style.numberLimit}>{caption}</p> : null;
+};
+
 const TextField = (element: Element) => (
   <div>
     <ElementTitle element={element} />
@@ -95,6 +109,7 @@ const TextField = (element: Element) => (
         width: componentSize[inputWidthMap[element.elementType] || 'XS'],
       }}
     />
+    {element.elementType === 'NUMBER' && <NumberLimits element={element} />}
   </div>
 );
 
