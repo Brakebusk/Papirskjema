@@ -22,6 +22,16 @@ import pingInsight from '@/utils/insight';
 import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
 
+const Introduction = () => (
+  <section className={style.section}>
+    <h2>Steg 0: Vær en Nettskjema-bruker</h2>
+    <p>
+      Om du ikke bruker nettskjema.no til å lage spørreskjemaer, er ikke denne
+      tjenesten for deg.
+    </p>
+  </section>
+);
+
 const ApiUser = ({ disabled }: { disabled: boolean }) => {
   const {
     setStep,
@@ -341,6 +351,7 @@ const PageContent = () => {
   const { step } = usePageContext();
   return (
     <div className={style.content}>
+      <Introduction />
       <ApiUser disabled={step !== 1} />
       <ChooseForm disabled={step !== 2} />
       <DownloadForm disabled={step !== 3} />

@@ -5,6 +5,8 @@ import '@fontsource/besley/700.css';
 
 import type { Metadata } from 'next';
 
+import Link from '@/components/Link';
+
 export const metadata: Metadata = {
   title: 'Papirskjema',
   description: 'Gjør ditt Nettskjema om til et papirskjema',
@@ -25,11 +27,17 @@ export default function RootLayout({
             <header>
               <h1>Papirskjema</h1>{' '}
               <p className="tagline">
-                Gjør ditt Nettskjema om til et skjema for den virkelige verden
+                Gjør ditt{' '}
+                <Link href="https://nettskjema.no" target="_blank">
+                  Nettskjema
+                </Link>{' '}
+                om til et skjema for den virkelige verden
               </p>
             </header>
             <main>{children}</main>
-            <footer>Papirskjema :)</footer>
+            <footer>
+              <p>En Papirskjema™️-tjeneste</p>
+            </footer>
           </div>
         </div>
         <div id="pdf-root" />
