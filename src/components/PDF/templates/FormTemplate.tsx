@@ -33,6 +33,15 @@ const ElementDescription = ({ element }: { element: Element }) =>
     />
   ) : null;
 
+const Heading = (element: Element) => (
+  <div
+    className={style.heading}
+    dangerouslySetInnerHTML={{
+      __html: element.text || '',
+    }}
+  />
+);
+
 const Accordion = (element: Element) => (
   <div>
     <ElementTitle element={element} />
@@ -244,7 +253,7 @@ const ElementComponents: Partial<
   Record<Element['elementType'], (element: Element) => ReactNode>
 > = {
   PAGE_BREAK: () => <PDFPageBreak />,
-  HEADING: (element: Element) => <ElementTitle element={element} />,
+  HEADING: Heading,
   TEXT: (element: Element) => <ElementDescription element={element} />,
   ACCORDION: Accordion,
   QUESTION: TextField,
