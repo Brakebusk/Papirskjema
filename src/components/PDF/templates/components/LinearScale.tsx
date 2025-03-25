@@ -182,7 +182,7 @@ const LinearScale = ({ element }: { element: Element }) => {
     midValueText !== null;
 
   const clientWidthForMaxValue = maximumValueText
-    ? measureMaxValueWidth(maximumValueText)
+    ? Math.min(50, measureMaxValueWidth(maximumValueText))
     : 0;
 
   const rangeMarkOffset = element.isRangeMarksShown ? 20 : 0;
