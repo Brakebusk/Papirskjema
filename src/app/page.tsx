@@ -17,6 +17,7 @@ import FormTemplate, {
   renderableElements,
 } from '@/components/PDF/templates/FormTemplate';
 import { Element, MyForms } from '@/types/NettskjemaAPI';
+import pingInsight from '@/utils/insight';
 
 import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
@@ -42,8 +43,10 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
       if (response?.access_token) {
         setAccessToken(response.access_token);
         setStep(2);
+        pingInsight('validate_valid');
       } else {
         setValidationError(response?.error || 'Ukjent årsak');
+        pingInsight('validate_invalid');
       }
       setBusy(false);
     },
@@ -118,8 +121,10 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
     const formList = await getForms(accessToken);
     if (Array.isArray(formList)) {
       setForms(formList);
+      pingInsight('get_forms_successful');
     } else {
       setGetFormsError('Kunne ikke hente skjemaer');
+      pingInsight('get_forms_failed');
     }
     setBusy(false);
   }, [accessToken]);
@@ -173,6 +178,7 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
                             onClick={() => {
                               setSelectedForm(form);
                               setStep(3);
+                              pingInsight('choose_form');
                             }}
                           >
                             Velg
@@ -218,8 +224,10 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
       const elementList = await getElements(accessToken, selectedForm.formId);
       if (Array.isArray(elementList)) {
         setElements(elementList);
+        pingInsight('get_elements_successful');
       } else {
         setGetElementsError('Kunne ikke hente skjemastruktur');
+        pingInsight('get_elements_failed');
       }
       setBusy(false);
     }
@@ -266,6 +274,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
           <Button
             disabled={elements == null}
             onClick={() => {
+              pingInsight('create_pdf');
               createPDF();
               setHasDownloaded(true);
             }}
@@ -277,6 +286,8 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             onClick={() => {
               setStep(2);
               setSelectedForm(null);
+              setElements(null);
+              pingInsight('choose_another_form');
             }}
             disabled={pdfBusy}
             variant="text"
@@ -305,6 +316,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
                     setStep(1);
                     setClientId('');
                     setClientSecret('');
+                    pingInsight('logout');
                   }}
                 >
                   Logg ut
