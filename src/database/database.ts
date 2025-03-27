@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS insight (
   field TEXT PRIMARY KEY,
   count INTEGER DEFAULT 0
 );
+CREATE TABLE IF NOT EXISTS forms (
+  form INTEGER PRIMARY KEY,
+  count INTEGER DEFAULT 0
+);
 `;
 
 database.exec(initDatabase);
