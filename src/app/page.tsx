@@ -1,7 +1,7 @@
 'use client';
 
 import cn from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 
 import getElements from '@/actions/getElements';
 import getForms from '@/actions/getForms';
@@ -22,14 +22,29 @@ import pingInsight from '@/utils/insight';
 import { PageProvider, usePageContext } from './context';
 import style from './page.module.scss';
 
+const Section = ({
+  disabled,
+  children,
+}: {
+  disabled: boolean;
+  children: ReactNode;
+}) => (
+  <section
+    className={cn(style.section, disabled && style.disabled)}
+    inert={disabled}
+  >
+    {children}
+  </section>
+);
+
 const Introduction = ({ disabled }: { disabled: boolean }) => (
-  <section className={cn(style.section, disabled && style.disabled)}>
+  <Section disabled={disabled}>
     <h2>Steg 0: Vær en Nettskjema-bruker</h2>
     <p>
       Om du ikke bruker nettskjema.no til å lage spørreskjemaer, er ikke denne
       tjenesten for deg.
     </p>
-  </section>
+  </Section>
 );
 
 const ApiUser = ({ disabled }: { disabled: boolean }) => {
@@ -64,7 +79,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
   );
 
   return (
-    <section className={cn(style.section, disabled && style.disabled)}>
+    <Section disabled={disabled}>
       <h2>Steg 1: API-Bruker</h2>
       <p>
         For å kunne opprette et papirskjema av nettskjemaet ditt, trenger du en
@@ -109,7 +124,7 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
           )}
         </div>
       </Flex>
-    </section>
+    </Section>
   );
 };
 
@@ -144,7 +159,7 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
   }, [disabled, updateFormList]);
 
   return (
-    <section className={cn(style.section, disabled && style.disabled)}>
+    <Section disabled={disabled}>
       <h2>Steg 2: Velg skjema</h2>
       <Flex direction="column" rowGap={16}>
         <div>
@@ -215,7 +230,7 @@ const ChooseForm = ({ disabled }: { disabled: boolean }) => {
           </div>
         )}
       </Flex>
-    </section>
+    </Section>
   );
 };
 
@@ -273,7 +288,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
   ].filter((type) => !renderableElements.includes(type));
 
   return (
-    <section className={cn(style.section, disabled && style.disabled)}>
+    <Section disabled={disabled}>
       <h2>Steg 3: Last ned papirskjema</h2>
       <Flex direction="column" rowGap={16}>
         <p>
@@ -343,7 +358,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
           </div>
         )}
       </Flex>
-    </section>
+    </Section>
   );
 };
 
