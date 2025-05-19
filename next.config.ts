@@ -17,10 +17,6 @@ const commonSecurityHeaders = [
     key: 'Strict-Transport-Security',
     value: 'max-age=31536000; includeSubDomains',
   },
-  {
-    key: 'Permissions-Policy',
-    value: 'clipboard-write=(self)',
-  },
 ];
 
 const nextConfig: NextConfig = {
