@@ -3,7 +3,7 @@
 import { nettskjemaBaseURL } from './constants';
 
 const getForms = async (accessToken: string) => {
-  return await fetch(`${nettskjemaBaseURL}/v3/form/me`, {
+  return await fetch(`${nettskjemaBaseURL}/api/v3/form/me`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',

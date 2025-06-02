@@ -10,7 +10,7 @@ const getElements = async (accessToken: string, formId: number) => {
   } catch (e) {
     console.error('Failed to increment form insight', e);
   }
-  return await fetch(`${nettskjemaBaseURL}/v3/form/${formId}/elements`, {
+  return await fetch(`${nettskjemaBaseURL}/api/v3/form/${formId}/elements`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
