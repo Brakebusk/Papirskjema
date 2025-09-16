@@ -16,6 +16,15 @@
         }
 ```
 
+### .env
+
+```
+NETTSKJEMA_BASE_URL=https://nettskjema-dev.uio.no
+AUTHORIZATION_BASE_URL=https://nettskjema-authorization-dev.uio.no
+API_CLIENT_ID=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx
+API_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
 ### start.sh
 
 ```bash
