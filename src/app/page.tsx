@@ -146,7 +146,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
 
   return (
     <Section disabled={disabled}>
-      <h2>Steg 3: Last ned papirskjema</h2>
+      <h2>Steg 2: Last ned papirskjema</h2>
       <Flex direction="column" rowGap={16}>
         <p>Valgt skjema: {settings.title}</p>
         {unRenderableElements.length > 0 && (
