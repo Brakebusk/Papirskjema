@@ -1,14 +1,11 @@
 'use client';
 
 import cn from 'clsx';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 
-import getElements from '@/actions/getElements';
-import getForms from '@/actions/getForms';
-import getToken from '@/actions/getToken';
+import getForm from '@/actions/getForm';
 import Button from '@/components/Button';
 import ErrorMessage from '@/components/ErrorMessage';
-import Fieldset from '@/components/Fieldset';
 import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
@@ -16,7 +13,6 @@ import { useCreatePDF } from '@/components/PDF';
 import FormTemplate, {
   renderableElements,
 } from '@/components/PDF/templates/FormTemplate';
-import { Element, MyForms } from '@/types/NettskjemaAPI';
 import pingInsight from '@/utils/insight';
 
 import { PageProvider, usePageContext } from './context';
@@ -47,26 +43,30 @@ const Introduction = ({ disabled }: { disabled: boolean }) => (
   </Section>
 );
 
-const ApiUser = ({ disabled }: { disabled: boolean }) => {
-  const {
-    setStep,
-    clientId,
-    setClientId,
-    clientSecret,
-    setClientSecret,
-    setAccessToken,
-  } = usePageContext();
+const CopyPermissions = ({ disabled }: { disabled: boolean }) => {
+  const { setStep, copyLink, setCopyLink, setElements, setSettings } =
+    usePageContext();
 
   const [validationError, setValidationError] = useState('');
   const [busy, setBusy] = useState(false);
 
   const validateInput = useCallback(
-    async (clientId: string, clientSecret: string) => {
+    async (copyLink: string) => {
       setValidationError('');
       setBusy(true);
-      const response = await getToken(clientId, clientSecret);
-      if (response?.access_token) {
-        setAccessToken(response.access_token);
+
+      const formId = parseInt(copyLink.match(/(\d+)/)?.[0] || '', 10);
+      if (isNaN(formId)) {
+        setValidationError('Ugyldig lenke');
+        setBusy(false);
+        pingInsight('validate_invalid');
+        return;
+      }
+
+      const response = await getForm(formId);
+      if (response?.elements && response?.settings) {
+        setElements(response.elements);
+        setSettings(response.settings);
         setStep(2);
         pingInsight('validate_valid');
       } else {
@@ -75,46 +75,38 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
       }
       setBusy(false);
     },
-    [setAccessToken, setStep],
+    [setStep, setElements, setSettings],
   );
 
   return (
     <Section disabled={disabled}>
-      <h2>Steg 1: API-Bruker</h2>
-      <p>
-        For å kunne opprette et papirskjema av nettskjemaet ditt, trenger du en
-        API-bruker i Nettskjema.
-      </p>
+      <h2>Steg 1: Gjør skjemaet ditt tilgjengelig for kopiering</h2>
       <Flex direction="column" rowGap={8}>
         <p>
-          Gå til{' '}
-          <Link href="https://authorization.nettskjema.no/" target="_blank">
-            https://authorization.nettskjema.no/
-          </Link>{' '}
-          og registrer en klient.
+          For å kunne opprette et papirskjema av nettskjemaet ditt, må du gjøre
+          det tilgjengelig for kopiering.
         </p>
-        <Fieldset
-          legend="Lim inn verdiene her:"
-          className={style.apiUserFieldset}
-        >
-          <Flex direction="column" rowGap={8}>
-            <Input
-              label="Client ID:"
-              value={clientId}
-              onChange={(e) => setClientId(e.target.value.trim())}
-            />
-            <Input
-              label="Client secret:"
-              value={clientSecret}
-              onChange={(e) => setClientSecret(e.target.value.trim())}
-              type="password"
-            />
-          </Flex>
-        </Fieldset>
+        <p>
+          Gå til{' '}
+          <Link href="https://nettskjema.no/user/form" target="_blank">
+            Mine Skjema
+          </Link>
+          , finn skjemaet ditt, gå til{' '}
+          <span className={style.emph}>Innstillinger</span> og huk av for at{' '}
+          <span className={style.emph}>Alle med lenke</span> kan kopiere
+          skjemaet ditt under{' '}
+          <span className={style.emph}>Kopieringsrettigheter</span>. Husk å
+          lagre innstillingen.
+        </p>
+        <Input
+          label="Lim inn kopieringslenken her:"
+          value={copyLink}
+          onChange={(e) => setCopyLink(e.target.value.trim())}
+        />
         <div>
           <Button
-            onClick={() => validateInput(clientId, clientSecret)}
-            disabled={!clientId || !clientSecret}
+            onClick={() => validateInput(copyLink)}
+            disabled={!copyLink}
             busy={busy}
           >
             Sjekk
@@ -128,158 +120,23 @@ const ApiUser = ({ disabled }: { disabled: boolean }) => {
   );
 };
 
-const ClientUsername = () => {
-  const { clientId } = usePageContext();
-
-  return <code className={style.clientUsername}>{clientId}@apiclient</code>;
-};
-
-const ChooseForm = ({ disabled }: { disabled: boolean }) => {
-  const { accessToken, setSelectedForm, step, setStep } = usePageContext();
-  const [forms, setForms] = useState<MyForms[] | null>(null);
-  const [getFormsError, setGetFormsError] = useState('');
-  const [busy, setBusy] = useState(false);
-
-  const updateFormList = useCallback(async () => {
-    setBusy(true);
-    setGetFormsError('');
-    const formList = await getForms(accessToken);
-    if (Array.isArray(formList)) {
-      setForms(formList);
-      pingInsight('get_forms_successful');
-    } else {
-      setGetFormsError('Kunne ikke hente skjemaer');
-      pingInsight('get_forms_failed');
-    }
-    setBusy(false);
-  }, [accessToken]);
-
-  useEffect(() => {
-    if (!disabled) updateFormList();
-  }, [disabled, updateFormList]);
-
-  return (
-    <Section disabled={disabled}>
-      <h2>Steg 2: Velg skjema</h2>
-      <Flex direction="column" rowGap={16}>
-        <div>
-          <p>API-brukeren din trenger tilgang til skjemaet ditt.</p>
-          <p>
-            Logg inn på{' '}
-            <Link href="https://nettskjema.no" target="_blank">
-              https://nettskjema.no
-            </Link>
-            og gi {step === 1 ? 'klienten din' : <ClientUsername />}{' '}
-            <u>kopieringsrettigheter</u> til skjemaet du vil lage papirskjema
-            av.
-          </p>
-        </div>
-        {step === 1 ? null : forms == null ? (
-          <p>Laster...</p>
-        ) : getFormsError ? (
-          <ErrorMessage>{getFormsError}</ErrorMessage>
-        ) : (
-          <div>
-            <h3>Klienten din har tilgang til følgende skjema:</h3>{' '}
-            <Flex direction="column" rowGap={16}>
-              {forms.length === 0 ? (
-                <p>
-                  <i>Ingen skjema</i>
-                </p>
-              ) : (
-                <table className={style.formList}>
-                  <thead>
-                    <tr>
-                      <th>Tittel</th>
-                      <th>Velg skjema</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {forms.map((form) => (
-                      <tr key={form.formId}>
-                        <td>
-                          <Link
-                            href={`https://nettskjema.no/user/form/${form.formId}`}
-                            target="_blank"
-                          >
-                            {form.title}
-                          </Link>
-                        </td>
-                        <td>
-                          <Button
-                            onClick={() => {
-                              setSelectedForm(form);
-                              setStep(3);
-                              pingInsight('choose_form');
-                            }}
-                          >
-                            Velg
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-              <div>
-                <Button onClick={() => updateFormList()} busy={busy}>
-                  Oppdater
-                </Button>
-              </div>
-            </Flex>
-          </div>
-        )}
-      </Flex>
-    </Section>
-  );
-};
-
 const DownloadForm = ({ disabled }: { disabled: boolean }) => {
-  const {
-    selectedForm,
-    accessToken,
-    setStep,
-    setSelectedForm,
-    setClientId,
-    setClientSecret,
-  } = usePageContext();
+  const { elements, settings, setStep, setElements, setSettings } =
+    usePageContext();
 
-  const [elements, setElements] = useState<Element[] | null>(null);
-  const [getElementsError, setGetElementsError] = useState('');
-  const [busy, setBusy] = useState(false);
   const [hasDownloaded, setHasDownloaded] = useState(false);
-
-  const updateElements = useCallback(async () => {
-    if (selectedForm?.formId) {
-      setBusy(true);
-      setGetElementsError('');
-      const elementList = await getElements(accessToken, selectedForm.formId);
-      if (Array.isArray(elementList)) {
-        setElements(elementList);
-        pingInsight('get_elements_successful');
-      } else {
-        setGetElementsError('Kunne ikke hente skjemastruktur');
-        pingInsight('get_elements_failed');
-      }
-      setBusy(false);
-    }
-  }, [accessToken, selectedForm?.formId]);
-
-  useEffect(() => {
-    if (!disabled) updateElements();
-  }, [disabled, updateElements]);
 
   const { createPDF, busy: pdfBusy } = useCreatePDF(
     (onRenderCallback) => (
       <FormTemplate
-        form={selectedForm}
+        settings={settings}
         elements={elements}
         onRenderCallback={onRenderCallback}
       />
     ),
-    selectedForm?.title,
+    settings.title,
     {
-      fileName: `papirskjema-${selectedForm?.formId}`,
+      fileName: `papirskjema-${settings.formId}`,
     },
   );
 
@@ -291,11 +148,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
     <Section disabled={disabled}>
       <h2>Steg 3: Last ned papirskjema</h2>
       <Flex direction="column" rowGap={16}>
-        <p>
-          Valgt skjema:{' '}
-          {busy ? <i>Laster inn skjemastruktur...</i> : selectedForm?.title}
-        </p>
-        {getElementsError && <ErrorMessage>{getElementsError}</ErrorMessage>}
+        <p>Valgt skjema: {settings.title}</p>
         {unRenderableElements.length > 0 && (
           <div>
             <p>NB: Følgende elementtyper vil ikke bli inkludert: </p>
@@ -316,9 +169,9 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
           </Button>
           <Button
             onClick={() => {
-              setStep(2);
-              setSelectedForm(null);
-              setElements(null);
+              setStep(1);
+              setSettings({});
+              setElements([]);
               pingInsight('choose_another_form');
             }}
             disabled={pdfBusy}
@@ -332,28 +185,9 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             <h3>Ferdig?</h3>
             <Flex direction="column" rowGap={8}>
               <p>
-                Om du ikke skal generere flere papirskjemaer, bør du slette
-                API-brukeren som du opprettet her:{' '}
-                <Link
-                  href="https://authorization.nettskjema.no/"
-                  target="_blank"
-                >
-                  https://authorization.nettskjema.no/
-                </Link>{' '}
-                og logge ut:
+                Du kan nå huke fjerne kopieringsrettigheten du satt i steg 1 om
+                du ønsker dette.
               </p>
-              <div>
-                <Button
-                  onClick={() => {
-                    setStep(1);
-                    setClientId('');
-                    setClientSecret('');
-                    pingInsight('logout');
-                  }}
-                >
-                  Logg ut
-                </Button>
-              </div>
             </Flex>
           </div>
         )}
@@ -367,9 +201,8 @@ const PageContent = () => {
   return (
     <div className={style.content}>
       <Introduction disabled={step !== 1} />
-      <ApiUser disabled={step !== 1} />
-      <ChooseForm disabled={step !== 2} />
-      <DownloadForm disabled={step !== 3} />
+      <CopyPermissions disabled={step !== 1} />
+      <DownloadForm disabled={step !== 2} />
     </div>
   );
 };

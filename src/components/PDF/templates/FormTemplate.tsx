@@ -2,7 +2,7 @@ import cn from 'clsx';
 import { ReactNode } from 'react';
 
 import Flex from '@/components/Flex';
-import { Element, MyForms } from '@/types/NettskjemaAPI';
+import { Element, FormSettings } from '@/types/NettskjemaAPI';
 import { ComponentSize, componentSize } from '@/utils/sizes';
 
 import PDFBlock from '../layout/PDFBlock';
@@ -304,15 +304,15 @@ export const renderableElements = Object.keys(
 ) as Element['elementType'][];
 
 const FormTemplate = ({
-  form,
+  settings,
   elements,
   onRenderCallback,
 }: {
-  form: MyForms | null;
+  settings: FormSettings | null;
   elements: Element[] | null;
   onRenderCallback: () => void;
 }) => {
-  if (!form || !elements) return <div ref={onRenderCallback} />;
+  if (!settings || !elements) return <div ref={onRenderCallback} />;
 
   const anyMandatory = elements.some((element) => element.isMandatory);
 

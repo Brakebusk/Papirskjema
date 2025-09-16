@@ -8,8 +8,17 @@ import type { Metadata } from 'next';
 import Link from '@/components/Link';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://papirskjema.no'),
   title: 'Papirskjema',
   description: 'Gjør ditt Nettskjema om til et papirskjema',
+  openGraph: {
+    title: 'Papirskjema',
+    description: 'Gjør ditt Nettskjema om til et papirskjema',
+    url: 'https://papirskjema.no',
+    siteName: 'Papirskjema',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 };
 
 export const dynamic = 'force-dynamic';

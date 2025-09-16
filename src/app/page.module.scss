@@ -17,44 +17,8 @@
   }
 }
 
-.apiUserFieldset {
-  legend {
-    margin-bottom: 4px;
-  }
-  label {
-    width: 105px;
-  }
-}
-
-.clientUsername {
-  background-color: var.color(neutral, grey4);
+.emph {
+  background-color: var.color(neutral, grey2);
   border-radius: 2px;
-  padding: 1px 2px;
-}
-
-.formList {
-  max-width: var.componentSize(S);
-  border-collapse: collapse;
-  max-height: var.componentSize(S);
-  overflow-y: auto;
-  display: block;
-
-  thead {
-    th {
-      text-align: left;
-      border-bottom: 1px solid var.color(neutral, grey6);
-
-      &:last-child {
-        width: 115px;
-      }
-    }
-  }
-  tbody {
-    tr {
-      td {
-        border-bottom: 1px solid var.color(neutral, grey4);
-        padding: 6px 2px;
-      }
-    }
-  }
+  padding: 0px 2px;
 }
