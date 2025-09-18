@@ -73,6 +73,15 @@ footer {
   text-align: center;
   height: var.componentSize(Mini);
   padding-top: 80px;
+
+  a {
+    color: var.color(text, default);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 #pdf-root {

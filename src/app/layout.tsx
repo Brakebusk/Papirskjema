@@ -45,7 +45,9 @@ export default function RootLayout({
             </header>
             <main>{children}</main>
             <footer>
-              <p>En Papirskjema™️-tjeneste</p>
+              <a href="https://github.com/Brakebusk/Papirskjema">
+                En Papirskjema™️-tjeneste
+              </a>
             </footer>
           </div>
         </div>
