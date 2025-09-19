@@ -21,6 +21,7 @@ const getNewPDF = (numberOfPages: number) => {
     format: [PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT],
     hotfixes: ['px_scaling'],
   });
+  pdf.setLanguage('nb');
   pdf.addFileToVFS('Besley-normal.ttf', BESLEY_REGULAR_BASE64);
   pdf.addFont('Besley-normal.ttf', 'Besley', 'normal');
   pdf.addFileToVFS('Besley-bold.ttf', BESLEY_BOLD_BASE64);
@@ -77,7 +78,7 @@ export const useCreatePDF = (
       const pdfRoot = document.getElementById('pdf-root');
       if (!pdfRoot) throw new Error('Could not find pdf-root element');
 
-      // Filter out images that are not self hosted
+      // Filter out images that are not data blobs
       [...pdfRoot.querySelectorAll('img')]
         .filter(
           (image) =>
@@ -86,6 +87,9 @@ export const useCreatePDF = (
         .forEach((externalImage) => {
           externalImage.replaceWith(document.createElement('div'));
         });
+      [...pdfRoot.querySelectorAll('video, iframe')].forEach((element) => {
+        element.replaceWith(document.createElement('div'));
+      });
 
       const convert = Array.from(pdfRoot.querySelectorAll('canvas, svg')).map(
         (element) => element.parentElement,
