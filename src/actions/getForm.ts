@@ -1,6 +1,9 @@
 'use server';
 
-import { createFormIncrementQuery } from '@/database/queries';
+import {
+  createFormIncrementQuery,
+  createWhenIncrementQuery,
+} from '@/database/queries';
 import { Element, FormSettings } from '@/types/NettskjemaAPI';
 
 import {
@@ -39,6 +42,7 @@ type Response = {
 const getForm = async (formId: number): Promise<Response> => {
   try {
     createFormIncrementQuery().run(formId);
+    createWhenIncrementQuery().run(new Date().toISOString().split('T')[0]);
   } catch (e) {
     console.error('Failed to increment form insight', e);
   }
