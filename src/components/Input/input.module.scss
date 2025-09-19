@@ -11,4 +11,6 @@
   max-width: var.componentSize(S);
   width: 100%;
   height: var.controlSize(S);
+  border: 1px solid var.color(neutral, grey8);
+  border-radius: 2px;
 }
