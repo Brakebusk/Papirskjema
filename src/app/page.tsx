@@ -185,8 +185,8 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
             <h3>Ferdig?</h3>
             <Flex direction="column" rowGap={8}>
               <p>
-                Du kan nå huke fjerne kopieringsrettigheten du satt i steg 1 om
-                du ønsker dette.
+                Du kan nå fjerne kopieringsrettigheten du satt i steg 1 om du
+                ønsker dette.
               </p>
             </Flex>
           </div>
