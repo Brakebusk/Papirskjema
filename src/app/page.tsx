@@ -135,6 +135,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
       />
     ),
     settings.title,
+    settings.languageCode || 'nb',
     {
       fileName: `papirskjema-${settings.formId}`,
     },

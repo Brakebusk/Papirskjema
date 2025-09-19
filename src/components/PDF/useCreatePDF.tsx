@@ -14,14 +14,16 @@ import {
 import { Template } from './Template';
 import { PDFOptions } from './types';
 
-const getNewPDF = (numberOfPages: number) => {
+type LanguageCode = Parameters<typeof jsPDF.prototype.setLanguage>[0];
+
+const getNewPDF = (numberOfPages: number, languageCode: string) => {
   const pdf = new jsPDF({
     orientation: 'portrait',
     unit: 'px',
     format: [PDF_PAGE_WIDTH, PDF_PAGE_HEIGHT],
     hotfixes: ['px_scaling'],
   });
-  pdf.setLanguage('nb');
+  pdf.setLanguage(languageCode as LanguageCode);
   pdf.addFileToVFS('Besley-normal.ttf', BESLEY_REGULAR_BASE64);
   pdf.addFont('Besley-normal.ttf', 'Besley', 'normal');
   pdf.addFileToVFS('Besley-bold.ttf', BESLEY_BOLD_BASE64);
@@ -36,6 +38,7 @@ const getNewPDF = (numberOfPages: number) => {
 export const useCreatePDF = (
   innerTemplate: (onRenderCallback: () => void) => ReactNode,
   title: ReactNode | string,
+  languageCode: string,
   options: PDFOptions,
 ) => {
   const {
@@ -113,7 +116,7 @@ export const useCreatePDF = (
 
           const numberOfPages = calculateTemplatePageCount(pdfRoot);
 
-          getNewPDF(numberOfPages).html(pdfRoot, {
+          getNewPDF(numberOfPages, languageCode).html(pdfRoot, {
             callback: (generatedPDF) => {
               applyClickableLinks(generatedPDF, contentRef);
 
@@ -140,6 +143,7 @@ export const useCreatePDF = (
     debugMode,
     disableAutoPaging,
     fileName,
+    languageCode,
     hidePageNumbers,
     templateRendered,
   ]);
