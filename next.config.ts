@@ -21,6 +21,7 @@ const commonSecurityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  htmlLimitedBots: /.*/,
   async headers() {
     return [
       {
