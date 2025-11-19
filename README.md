@@ -7,13 +7,13 @@
 ### Nginx conf
 
 ```
-        location / {
-                proxy_pass http://localhost:3000;
-                proxy_redirect default;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-Host $host;
-                proxy_set_header X-Forwarded-Proto $scheme;
-        }
+location / {
+        proxy_pass http://localhost:3000;
+        proxy_redirect default;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+}
 ```
 
 ### .env
