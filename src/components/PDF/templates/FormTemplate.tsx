@@ -139,12 +139,15 @@ const MultipleChoice = (element: Element) => (
     <Spacer height={8} />
     {element.elementType === 'CHECKBOX' ? (
       <p>
-        Velg opptil{' '}
-        {element.maxSelectedAnswerOptions || 'så mange alternativer du vil'}
+        Velg{' '}
+        {element.maxSelectedAnswerOptions
+          ? `opptil ${element.maxSelectedAnswerOptions} alternativer`
+          : 'så mange alternativer du vil'}
       </p>
     ) : (
-      <p>Velg 1 alternativ</p>
+      <p>Velg ett alternativ</p>
     )}
+    <Spacer height={4} />
     {element.isHorizontal ? (
       <div className={style.horizontalMultipleChoice}>
         {answerOptions(element)}
@@ -168,14 +171,15 @@ const Matrix = (element: Element) => (
     <Spacer height={8} />
     {element.elementType === 'MATRIX_CHECKBOX' ? (
       <p>
-        Velg opptil{' '}
+        Velg{' '}
         {element.maxSelectedAnswerOptions
-          ? `${element.maxSelectedAnswerOptions} alternativer på hver rad`
+          ? `opptil ${element.maxSelectedAnswerOptions} alternativer på hver rad`
           : 'så mange alternativer du vil på hver rad'}
       </p>
     ) : (
-      <p>Velg 1 alternativ på hver rad</p>
+      <p>Velg ett alternativ på hver rad</p>
     )}
+    <Spacer height={4} />
     <div className={style.matrix}>
       <div className={style.row}>
         <div className={style.rowTitle} />
