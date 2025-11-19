@@ -1,7 +1,11 @@
 'use client';
 
-import cn from 'clsx';
 import { ReactNode, useCallback, useState } from 'react';
+import cn from 'clsx';
+
+import style from './page.module.scss';
+
+import { PageProvider, usePageContext } from './context';
 
 import getForm from '@/actions/getForm';
 import Button from '@/components/Button';
@@ -14,9 +18,6 @@ import FormTemplate, {
   renderableElements,
 } from '@/components/PDF/templates/FormTemplate';
 import pingInsight from '@/utils/insight';
-
-import { PageProvider, usePageContext } from './context';
-import style from './page.module.scss';
 
 const Section = ({
   disabled,

@@ -1,15 +1,16 @@
-import cn from 'clsx';
 import { ReactNode } from 'react';
+import cn from 'clsx';
 
-import Flex from '@/components/Flex';
-import { Element, FormSettings } from '@/types/NettskjemaAPI';
-import { ComponentSize, componentSize } from '@/utils/sizes';
+import style from './templates.module.scss';
 
 import PDFBlock from '../layout/PDFBlock';
 import PDFPageBreak from '../layout/PDFPageBreak';
 import { addSpaceBetweenElements, Spacer } from '../util';
 import LinearScale from './components/LinearScale';
-import style from './templates.module.scss';
+
+import Flex from '@/components/Flex';
+import { Element, FormSettings } from '@/types/NettskjemaAPI';
+import { ComponentSize, componentSize } from '@/utils/sizes';
 
 const ElementTitle = ({ element }: { element: Element }) => (
   <div>

@@ -1,9 +1,9 @@
-import '@/styling/globals.scss';
+import type { Metadata } from 'next';
+
 import '@fontsource/besley/400.css';
 import '@fontsource/besley/600.css';
 import '@fontsource/besley/700.css';
-
-import type { Metadata } from 'next';
+import '@/styling/globals.scss';
 
 import Link from '@/components/Link';
 

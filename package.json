@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack -p 3003",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -15,23 +15,23 @@
     "luxon": "^3.7.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "next": "15.5.4",
+    "next": "16.0.3",
     "react-compound-slider": "^3.4.0",
-    "sass": "^1.93.2",
+    "sass": "^1.94.1",
     "@fontsource/besley": "^5.2.8",
     "@svgr/webpack": "^8.1.0"
   },
   "devDependencies": {
-    "eslint": "^9.36.0",
-    "eslint-config-next": "15.5.4",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "@types/luxon": "^3.7.1",
-    "@types/node": "^24.6.2",
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0"
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3"
   }
 }

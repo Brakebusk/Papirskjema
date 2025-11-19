@@ -1,8 +1,9 @@
-import cn from 'clsx';
 import { ReactNode } from 'react';
+import cn from 'clsx';
+
+import style from './button.module.scss';
 
 import LoadingIcon from '../LoadingIcon';
-import style from './button.module.scss';
 
 const Button = ({
   onClick,

@@ -1,9 +1,9 @@
 import cn from 'clsx';
 import { GetRailProps, Rail, Slider, Ticks } from 'react-compound-slider';
 
-import { Element } from '@/types/NettskjemaAPI';
-
 import style from './linearScale.module.scss';
+
+import { Element } from '@/types/NettskjemaAPI';
 
 const Tick = ({
   tick,

@@ -1,17 +1,17 @@
 'use server';
 
 import {
-  createFormIncrementQuery,
-  createWhenIncrementQuery,
-} from '@/database/queries';
-import { Element, FormSettings } from '@/types/NettskjemaAPI';
-
-import {
   apiClientId,
   apiClientSecret,
   authorizationBaseURL,
   nettskjemaBaseURL,
 } from './constants';
+
+import {
+  createFormIncrementQuery,
+  createWhenIncrementQuery,
+} from '@/database/queries';
+import { Element, FormSettings } from '@/types/NettskjemaAPI';
 
 const getToken = async () => {
   return await fetch(`${authorizationBaseURL}/oauth2/token`, {

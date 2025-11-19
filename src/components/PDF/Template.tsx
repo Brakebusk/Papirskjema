@@ -1,9 +1,10 @@
+import { ReactNode, RefObject } from 'react';
 import cn from 'clsx';
 import { DateTime } from 'luxon';
-import { ReactNode, RefObject } from 'react';
+
+import style from './template.module.scss';
 
 import { PDF_PAGE_INNER_WIDTH } from './constants';
-import style from './template.module.scss';
 
 const DownloadTimestamp = () => (
   <>

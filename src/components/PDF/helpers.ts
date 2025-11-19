@@ -1,5 +1,5 @@
-import { jsPDF } from 'jspdf';
 import { RefObject } from 'react';
+import { jsPDF } from 'jspdf';
 
 import {
   PDF_MARGINS,

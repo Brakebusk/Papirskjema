@@ -1,5 +1,5 @@
-import cn from 'clsx';
 import { ReactNode } from 'react';
+import cn from 'clsx';
 
 import style from './fieldset.module.scss';
 

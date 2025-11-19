@@ -24,6 +24,7 @@ export default function useLocalStorage<T>(
 
   // Buffer value to prevent hydration issues
   const [bufferedValue, setBufferedValue] = useState<T>(defaultValue);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setBufferedValue(value), [value]);
 
   return [bufferedValue, setValue];
