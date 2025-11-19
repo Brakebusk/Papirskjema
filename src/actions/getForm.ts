@@ -84,8 +84,7 @@ const getForm = async (formId: number): Promise<Response> => {
       return {
         elements: null,
         settings: null,
-        error:
-          'Kunne ikke laste inn skjema. Har du husket å lagre innstillingen?',
+        error: 'Kunne ikke laste inn skjema. Har innstillingen blitt lagret?',
       };
     });
 };

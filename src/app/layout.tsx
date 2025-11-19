@@ -40,14 +40,13 @@ export default function RootLayout({
                 <Link href="https://nettskjema.no" target="_blank">
                   Nettskjema
                 </Link>{' '}
-                om til et skjema for den virkelige verden
+                om til et skjema for papir
               </p>
             </header>
             <main>{children}</main>
             <footer>
-              <a href="https://github.com/Brakebusk/Papirskjema">
-                En Papirskjema™️-tjeneste
-              </a>
+              <p>Papirskjema™️</p>
+              <a href="https://github.com/Brakebusk/Papirskjema">Kildekode</a>
             </footer>
           </div>
         </div>

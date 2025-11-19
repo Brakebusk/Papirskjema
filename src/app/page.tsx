@@ -96,8 +96,7 @@ const CopyPermissions = ({ disabled }: { disabled: boolean }) => {
           <span className={style.emph}>Innstillinger</span> og huk av for at{' '}
           <span className={style.emph}>Alle med lenke</span> kan kopiere
           skjemaet ditt under{' '}
-          <span className={style.emph}>Kopieringsrettigheter</span>. Husk å
-          lagre innstillingen.
+          <span className={style.emph}>Kopieringsrettigheter</span>.
         </p>
         <Input
           label="Lim inn kopieringslenken her:"
