@@ -11,27 +11,27 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "html-to-image": "1.11.11",
-    "jspdf": "^3.0.3",
+    "jspdf": "^3.0.4",
     "luxon": "^3.7.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "next": "16.0.3",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "next": "16.0.7",
     "react-compound-slider": "^3.4.0",
-    "sass": "^1.94.1",
+    "sass": "^1.94.2",
     "@fontsource/besley": "^5.2.8",
     "@svgr/webpack": "^8.1.0"
   },
   "devDependencies": {
     "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.3",
+    "eslint-config-next": "16.0.7",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.3",
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3"
   }
 }
