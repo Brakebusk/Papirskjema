@@ -3,6 +3,7 @@ import cn from 'clsx';
 
 import style from './templates.module.scss';
 
+import { FormLanguageCode, translations } from '../language';
 import PDFBlock from '../layout/PDFBlock';
 import PDFPageBreak from '../layout/PDFPageBreak';
 import { addSpaceBetweenElements, Spacer } from '../util';
@@ -59,47 +60,64 @@ const inputWidthMap: Partial<Record<Element['elementType'], ComponentSize>> = {
   NATIONAL_ID_NUMBER: 'XXS',
 };
 
-const NationalIdFormatCaption = ({ element }: { element: Element }) => {
+const NationalIdFormatCaption = ({
+  element,
+  languageCode,
+}: {
+  element: Element;
+  languageCode: FormLanguageCode;
+}) => {
+  const t = translations[languageCode];
   switch (element.nationalIdNumberType) {
     case 'NORWEGIAN_ID_NUMBER':
-      return <p>Norsk fødselsnummer (11 siffer)</p>;
+      return <p>{t.norwegianNationalIdNumber}</p>;
     case 'ONLY_NUMBERS':
       return null;
-    case 'CUSTOM':
-      return (
-        <p>
-          {element.nationalIdNumberOfLetters && element.nationalIdNumberOfDigits
-            ? `Fyll inn ${element.nationalIdNumberOfLetters} bokstaver og ${element.nationalIdNumberOfDigits} siffer`
-            : element.nationalIdNumberOfLetters
-              ? `Fyll inn ${element.nationalIdNumberOfLetters} bokstaver`
-              : `Fyll inn ${element.nationalIdNumberOfDigits} siffer`}
-        </p>
-      );
+    case 'CUSTOM': {
+      const letters = element.nationalIdNumberOfLetters;
+      const digits = element.nationalIdNumberOfDigits;
+      const caption =
+        letters && digits
+          ? t.fillInLettersAndDigits(letters, digits)
+          : letters
+            ? t.fillInLetters(letters)
+            : digits
+              ? t.fillInDigits(digits)
+              : null;
+      return caption ? <p>{caption}</p> : null;
+    }
   }
 };
 
-const NumberLimits = ({ element }: { element: Element }) => {
+const NumberLimits = ({
+  element,
+  languageCode,
+}: {
+  element: Element;
+  languageCode: FormLanguageCode;
+}) => {
   const { minimumValue: min, maximumValue: max } = element;
+  const t = translations[languageCode];
 
   const caption =
     min != null && max != null
-      ? `Tallet må være mellom ${min} og ${max}`
+      ? t.numberBetween(min, max)
       : min != null
-        ? `Tallet må være minst ${min}`
+        ? t.numberAtLeast(min)
         : max != null
-          ? `Tallet må være høyst ${max}`
+          ? t.numberAtMost(max)
           : null;
   return caption ? <p className={style.numberLimit}>{caption}</p> : null;
 };
 
-const TextField = (element: Element) => (
+const TextField = (element: Element, languageCode: FormLanguageCode) => (
   <div>
     <ElementTitle element={element} />
     <Spacer height={8} />
     <ElementDescription element={element} />
     <Spacer height={8} />
     {element.elementType === 'NATIONAL_ID_NUMBER' && (
-      <NationalIdFormatCaption element={element} />
+      <NationalIdFormatCaption element={element} languageCode={languageCode} />
     )}
     <div
       className={cn(
@@ -110,7 +128,9 @@ const TextField = (element: Element) => (
         width: componentSize[inputWidthMap[element.elementType] || 'XS'],
       }}
     />
-    {element.elementType === 'NUMBER' && <NumberLimits element={element} />}
+    {element.elementType === 'NUMBER' && (
+      <NumberLimits element={element} languageCode={languageCode} />
+    )}
   </div>
 );
 
@@ -131,7 +151,7 @@ const answerOptions = (element: Element) =>
     </div>
   )) ?? [];
 
-const MultipleChoice = (element: Element) => (
+const MultipleChoice = (element: Element, languageCode: FormLanguageCode) => (
   <div>
     <ElementTitle element={element} />
     <Spacer height={8} />
@@ -139,13 +159,14 @@ const MultipleChoice = (element: Element) => (
     <Spacer height={8} />
     {element.elementType === 'CHECKBOX' ? (
       <p>
-        Velg{' '}
         {element.maxSelectedAnswerOptions
-          ? `opptil ${element.maxSelectedAnswerOptions} alternativer`
-          : 'så mange alternativer du vil'}
+          ? translations[languageCode].chooseUpToOptions(
+              element.maxSelectedAnswerOptions,
+            )
+          : translations[languageCode].chooseAsManyOptions}
       </p>
     ) : (
-      <p>Velg ett alternativ</p>
+      <p>{translations[languageCode].chooseOneOption}</p>
     )}
     <Spacer height={4} />
     {element.isHorizontal ? (
@@ -163,7 +184,7 @@ const MultipleChoice = (element: Element) => (
   </div>
 );
 
-const Matrix = (element: Element) => (
+const Matrix = (element: Element, languageCode: FormLanguageCode) => (
   <div>
     <ElementTitle element={element} />
     <Spacer height={8} />
@@ -171,13 +192,14 @@ const Matrix = (element: Element) => (
     <Spacer height={8} />
     {element.elementType === 'MATRIX_CHECKBOX' ? (
       <p>
-        Velg{' '}
         {element.maxSelectedAnswerOptions
-          ? `opptil ${element.maxSelectedAnswerOptions} alternativer på hver rad`
-          : 'så mange alternativer du vil på hver rad'}
+          ? translations[languageCode].chooseUpToOptionsPerRow(
+              element.maxSelectedAnswerOptions,
+            )
+          : translations[languageCode].chooseAsManyOptionsPerRow}
       </p>
     ) : (
-      <p>Velg ett alternativ på hver rad</p>
+      <p>{translations[languageCode].chooseOneOptionPerRow}</p>
     )}
     <Spacer height={4} />
     <div className={style.matrix}>
@@ -228,7 +250,7 @@ const Matrix = (element: Element) => (
   </div>
 );
 
-const Date = (element: Element) => {
+const Date = (element: Element, languageCode: FormLanguageCode) => {
   const showDate = element.dateFormat !== 'TIME';
   const showTime = element.dateFormat !== 'DATE';
   return (
@@ -240,7 +262,7 @@ const Date = (element: Element) => {
       <Flex align="center" columnGap={8}>
         {showDate && (
           <div>
-            <div>Dato (dd.mm.åååå)</div>
+            <div>{translations[languageCode].date}</div>
             <div
               className={style.box}
               style={{ width: componentSize['XXS'] }}
@@ -249,7 +271,7 @@ const Date = (element: Element) => {
         )}
         {showTime && (
           <div>
-            <div>Tid (tt:mm)</div>
+            <div>{translations[languageCode].time}</div>
             <div
               className={style.box}
               style={{ width: componentSize['Mini'] }}
@@ -261,9 +283,14 @@ const Date = (element: Element) => {
   );
 };
 
-const SubmissionReference = () => (
+const SubmissionReference = (
+  _element: Element,
+  languageCode: FormLanguageCode,
+) => (
   <div>
-    <div className={style.title}>Referanse-ID</div>
+    <div className={style.title}>
+      {translations[languageCode].submissionReference}
+    </div>
     <div className={style.box} style={{ width: componentSize['XXS'] }} />
   </div>
 );
@@ -281,7 +308,10 @@ const LinearScaleElement = (element: Element) => {
 };
 
 const ElementComponents: Partial<
-  Record<Element['elementType'], (element: Element) => ReactNode>
+  Record<
+    Element['elementType'],
+    (element: Element, languageCode: FormLanguageCode) => ReactNode
+  >
 > = {
   PAGE_BREAK: () => <PDFPageBreak />,
   HEADING: Heading,
@@ -320,6 +350,7 @@ const FormTemplate = ({
   if (!settings || !elements) return <div ref={onRenderCallback} />;
 
   const anyMandatory = elements.some((element) => element.isMandatory);
+  const languageCode = (settings.languageCode as FormLanguageCode) || 'nb';
 
   return (
     <>
@@ -327,7 +358,7 @@ const FormTemplate = ({
         (anyMandatory
           ? [
               <p key="mandatory">
-                Obligatoriske spørsmål er markert med stjerne *
+                {translations[languageCode].mandatoryNotice}
               </p>,
             ]
           : []
@@ -338,7 +369,10 @@ const FormTemplate = ({
             )
             .map((element) => (
               <PDFBlock key={element.elementId}>
-                {ElementComponents[element.elementType]?.(element)}
+                {ElementComponents[element.elementType]?.(
+                  element,
+                  languageCode,
+                )}
               </PDFBlock>
             )),
         ),

@@ -5,25 +5,38 @@ import { DateTime } from 'luxon';
 import style from './template.module.scss';
 
 import { PDF_PAGE_INNER_WIDTH } from './constants';
+import { FormLanguageCode, translations } from './language';
 
-const DownloadTimestamp = () => (
+const DownloadTimestamp = ({
+  languageCode,
+}: {
+  languageCode: FormLanguageCode;
+}) => (
   <>
-    <b>Lastet ned</b>
-    {`: ${DateTime.now().setLocale('nb').toLocaleString({
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })}`}
+    <b>{translations[languageCode].downloaded}</b>
+    {`: ${DateTime.now()
+      .setLocale(languageCode === 'en' ? 'en-UK' : languageCode)
+      .toLocaleString({
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })}`}
   </>
 );
 
-const SimpleFrontPage = ({ title }: { title: ReactNode | string }) => (
+const SimpleFrontPage = ({
+  title,
+  languageCode,
+}: {
+  title: ReactNode | string;
+  languageCode: FormLanguageCode;
+}) => (
   <div className={style.simpleFrontPage}>
     <h1>{title}</h1>
     <div>
-      <DownloadTimestamp />
+      <DownloadTimestamp languageCode={languageCode} />
     </div>
   </div>
 );
@@ -31,6 +44,7 @@ const SimpleFrontPage = ({ title }: { title: ReactNode | string }) => (
 export const Template = ({
   innerTemplate,
   title,
+  languageCode,
   onTemplateRendered,
   contentRef,
   className,
@@ -38,6 +52,7 @@ export const Template = ({
 }: {
   innerTemplate: (onRenderCallback: () => void) => ReactNode;
   title: ReactNode | string;
+  languageCode: FormLanguageCode;
   onTemplateRendered: () => void;
   contentRef: RefObject<HTMLDivElement | null>;
   className: string | undefined;
@@ -51,7 +66,7 @@ export const Template = ({
       className={cn(style.template, debugMode && style.debug)}
       ref={contentRef}
     >
-      <SimpleFrontPage title={title} />
+      <SimpleFrontPage title={title} languageCode={languageCode} />
       <div className={className}>
         {innerTemplate(() => onTemplateRendered())}
       </div>

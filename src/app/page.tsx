@@ -14,6 +14,7 @@ import Flex from '@/components/Flex';
 import Input from '@/components/Input';
 import Link from '@/components/Link';
 import { useCreatePDF } from '@/components/PDF';
+import { FormLanguageCode } from '@/components/PDF/language';
 import FormTemplate, {
   renderableElements,
 } from '@/components/PDF/templates/FormTemplate';
@@ -135,7 +136,7 @@ const DownloadForm = ({ disabled }: { disabled: boolean }) => {
       />
     ),
     settings.title,
-    settings.languageCode || 'nb',
+    (settings.languageCode as FormLanguageCode) || 'nb',
     {
       fileName: `papirskjema-${settings.formId}`,
     },

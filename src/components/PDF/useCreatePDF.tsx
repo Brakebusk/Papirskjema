@@ -11,6 +11,7 @@ import {
   applyPageNumbers,
   calculateTemplatePageCount,
 } from './helpers';
+import { FormLanguageCode } from './language';
 import { Template } from './Template';
 import { PDFOptions } from './types';
 
@@ -38,7 +39,7 @@ const getNewPDF = (numberOfPages: number, languageCode: string) => {
 export const useCreatePDF = (
   innerTemplate: (onRenderCallback: () => void) => ReactNode,
   title: ReactNode | string,
-  languageCode: string,
+  languageCode: FormLanguageCode,
   options: PDFOptions,
 ) => {
   const {
@@ -66,6 +67,7 @@ export const useCreatePDF = (
         <Template
           innerTemplate={innerTemplate}
           title={title}
+          languageCode={languageCode}
           onTemplateRendered={() => setTemplateRendered(true)}
           contentRef={contentRef}
           className={contentClassName}
